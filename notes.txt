@@ -1,0 +1,3 @@
+install mysqlclient
+--skip-grant-tables
+pip install django-reset-migrations

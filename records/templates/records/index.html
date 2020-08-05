@@ -1,0 +1,66 @@
+{% extends 'ipams/base.html' %}
+{% block footer %}
+	<script>
+		$(document).ready(function() {
+		    $('#example').DataTable();
+		} );
+	</script>
+{% endblock %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>RECORDS</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-2">
+				<a href="{% url 'records-create' %}" class="btn btn-primary">ADD</a>
+			</div>
+			<div class="col-10">
+				<form action="#" method="POST" enctype="multipart/form-data">
+	                {% csrf_token %}
+	                <div class="row">
+	                	<div class="col-6">
+	                		<input type="file" name="file" class="form-control">
+	            		</div>
+	            		<div class="col-6">
+	                		<button class="btn btn-success">Import File</button>
+	                	</div>
+	                </div>
+	            </form>
+	        </div>
+		</div>
+		<!-- if record count is greater than 0 -->
+			<div class="row">
+				<div class="col-12">
+					<table id="example" class="table table-striped table-bordered" style="width:100%">
+				        <thead>
+				            <tr>
+				                <th>RESEARCH TITLE</th>
+				                <th>YEAR</th>
+				                <th>CLASS</th>
+				                <th>PSCED</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+							{% for record in records %}
+				        		<tr>
+				        			<td><a href="#">{{ record.title }}</a></td>
+				        			<td>{{ record.year_accomplished }}</td>
+				        			<td>{{ record.classification_id }}</td>
+				        			<td>{{ record.psced_classification_id }}</td>
+				        		</tr>
+				        	{% endfor %}
+				        </tbody>
+				    </table>
+				</div>
+			</div>
+		<!-- else -->
+			<div class="row"><p>No Records Found...</p></div>
+		<!-- end if -->
+
+	</div>
+{% endblock %}
