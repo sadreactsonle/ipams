@@ -29,14 +29,17 @@
 
 		$("#add-author-btn").on("click",function(){
 			authorCount++;
+			$("#author-rows").append('<div class="row" id="author-'+authorCount+'"><div class="col-7"><input name="author_names[]" placeholder="Name" class="form-control" type="text"></div><div class="col-3"><select name="author_roles[]" class="form-control"> {% for author_role in author_roles %}<option value="{{ author_role.pk }}">{{ author_role.name }}</option> {% endfor %} </select></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeAuthor('+authorCount+')">REMOVE</button></div></div>');
 		});
 
 		$("#add-conference-btn").on("click",function(){
 			conferenceCount++;
+			$("#conference-rows").append('<div class="row" id="conference-'+conferenceCount+'"><div class="col-2"><select name="conference_levels[]" class="form-control"> {% for conference_level in conference_levels %} <option value="{{ conference_level.pk }}">{{ conference_level.name }}</option> {% endfor %} </select></div><div class="col-3"><input type="text" placeholder="Title" name="conference_titles[]" class="form-control"></div><div class="col-2"><input type="date" name="conference_dates[]" class="form-control"></div><div class="col-3"><input type="text" placeholder="Venue" name="conference_venues[]" class="form-control"></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeConference('+conferenceCount+')">REMOVE</button></div></div>');
 		});
 
 		$("#add-budget-btn").on("click",function(){
 			budgetCount++;
+			$("#budget-rows").append('<div class="row" id="budget-'+budgetCount+'"><div class="col-2"><select name="budget_types[]" class="form-control"> {% for budget_type in budget_types %} <option value="{{ budget_type.pk }}">{{ budget_type.name }}</option> {% endfor %} </select></div><div class="col-4"><input type="number" name="budget_allocations[]" placeholder="Budget Allocation" class="form-control"></div><div class="col-4"><input type="text" name="funding_sources[]" placeholder="Funding Source" class="form-control"></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeBudget('+budgetCount+')">REMOVE</button></div></div>');
 		});
 
 		$("#add-collaboration-btn").on("click",function(){
@@ -53,7 +56,7 @@
 				data: $("#form-record").serialize(),
 				dataType: "json",
 				success: function(data){
-					alert("success "+JSON.stringify(data));
+					alert("success ");
 				},
 				error: function(data){
 					alert("error");
@@ -109,7 +112,9 @@
 						</div>
 						<div class="col-3">
 							<select name="author_roles[]" class="form-control">
-								<option value="id1">author 1</option>
+								{% for author_role in author_roles %}
+									<option value="{{ author_role.pk }}">{{ author_role.name }}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="col-2">
@@ -120,14 +125,18 @@
 				<div class="row">
 					<div class="col-12">
 						<select name="classification" class="form-control">
-							<option value="classificationID">name</option>
+							{% for classification in classifications %}
+								<option value="{{ classification.pk }}">{{ classification.name }}</option>
+							{% endfor %}
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
 						<select name="psced_classification" class="form-control">
-							<option value="pscedID">name</option>
+							{% for psced_classification in psced_classifications %}
+								<option value="{{ psced_classification.pk }}">{{ psced_classification.name }}</option>
+							{% endfor %}
 						</select>
 					</div>
 				</div>
@@ -148,7 +157,9 @@
 					<div class="row" id="conference-1">
 						<div class="col-2">
 							<select name="conference_levels[]" class="form-control">
-								<option value="id">name</option>
+								{% for conference_level in conference_levels %}
+									<option value="{{ conference_level.pk }}">{{ conference_level.name }}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="col-3">
@@ -196,13 +207,15 @@
 				<div class="row">
 					<div class="col-12">
 						<select name="publication_level" class="form-control">
-							<option value="id">name</option>
+							{% for publication_level in publication_levels %}
+								<option value="{{ publication_level.pk }}">{{ publication_level.name }}</option>
+							{% endfor %}
 						</select>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" class="form-control" name="publication_year_published" placeholder="Year Published">
+						<input type="text" class="form-control" name="year_published" placeholder="Year Published">
 					</div>
 				</div>
 			</section>
@@ -222,7 +235,9 @@
 					<div class="row" id="budget-1">
 						<div class="col-2">
 							<select name="budget_types[]" class="form-control">
-								<option value="id">name</option>
+								{% for budget_type in budget_types %}
+									<option value="{{ budget_type.pk }}">{{ budget_type.name }}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="col-4">
@@ -259,7 +274,9 @@
 						</div>
 						<div class="col-2">
 							<select name="collaboration_types[]" class="form-control">
-								<option value="id">name</option>
+								{% for collaboration_type in collaboration_types %}
+									<option value="{{ collaboration_type.pk }}">{{ collaboration_type.name }}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="col-2">

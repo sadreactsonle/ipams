@@ -1,3 +1,19 @@
 from django.contrib import admin
+from . import models
 
-# Register your models here.
+all_models = [
+    models.PSCEDClassification,
+    models.Classification,
+    models.Collaboration,
+    models.Publication,
+    models.AuthorRole,
+    models.Author,
+    models.ConferenceLevel,
+    models.Conference,
+    models.BudgetType,
+    models.Budget,
+    models.CollaborationType,
+    models.Record,
+    models.PublicationLevel,
+]
+admin.site.register(all_models)
