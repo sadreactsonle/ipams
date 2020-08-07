@@ -1,7 +1,13 @@
 from django.shortcuts import render
 from django.views import View
+from rest_framework.views import APIView
+
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
-    CollaborationType, Author, Conference, PublicationLevel, Publication, Budget
+    CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
+from django.shortcuts import redirect
+from pyexcel_xls import get_data as xls_get
+from pyexcel_xlsx import get_data as xlsx_get
+from django.utils.datastructures import  MultiValueDictKeyError
 
 
 class Home(View):
@@ -57,6 +63,9 @@ class Create(View):
         budget_types = request.POST.getlist('budget_types[]', None)
         budget_allocations = request.POST.getlist('budget_allocations[]', None)
         funding_sources = request.POST.getlist('funding_sources[]', None)
+        industries = request.POST.getlist('industries[]', None)
+        institutions = request.POST.getlist('institutions[]', None)
+        collaboration_types = request.POST.getlist('collaboration_types[]', None)
 
         record = Record(title=title, year_accomplished=year_accomplished, abstract=abstract,
                         classification=classification, psced_classification=psced_classification)
@@ -71,6 +80,33 @@ class Create(View):
         Publication(name=publication_name, isbn=isbn, issn=issn, isi=isi, publication_level=publication_level,
                     year_published=year_published, record=record).save()
         for i, budget_type in enumerate(budget_types):
-            Budget(budget_type)
+            Budget(budget_type = BudgetType.objects.get(pk=budget_types[i]), budget_allocation=budget_allocations[i],
+                   funding_source=funding_sources[i], record=record).save()
+
+        for i, collaboration_type in enumerate(collaboration_types):
+            Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_types[i]),
+                          industry=industries[i],institution=institutions[i],record=record).save()
 
         return render(request, self.name, self.context)
+
+
+class ParseExcel(View):
+    def post(self, request, format=None):
+        try:
+            excel_file = request.FILES['file']
+            if (str(excel_file).split('.')[-1] == 'xls'):
+                data = xls_get(excel_file, column_limit=50)
+            elif (str(excel_file).split('.')[-1] == 'xlsx'):
+                data = xlsx_get(excel_file, column_limit=50)
+            else:
+                print('upload failed')
+
+            print(len(data['ResearchProductivity']))
+            for i, d in enumerate(data['ResearchProductivity']):
+                if i >= 6:
+                    print(d[0])
+
+        except MultiValueDictKeyError:
+            print('multivaluedictkeyerror')
+
+        return redirect('/records/')

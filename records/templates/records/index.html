@@ -20,7 +20,7 @@
 				<a href="{% url 'records-create' %}" class="btn btn-primary">ADD</a>
 			</div>
 			<div class="col-10">
-				<form action="#" method="POST" enctype="multipart/form-data">
+				<form action="{% url 'records-upload' %}" method="POST" enctype="multipart/form-data">
 	                {% csrf_token %}
 	                <div class="row">
 	                	<div class="col-6">

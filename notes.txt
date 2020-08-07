@@ -1,3 +1,5 @@
 install mysqlclient
 --skip-grant-tables
-pip install django-reset-migrations
+pip install pyexcel-xls
+pip install pyexcel-xlsx
+pip install APIview

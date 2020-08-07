@@ -44,6 +44,7 @@
 
 		$("#add-collaboration-btn").on("click",function(){
 			collaborationCount++;
+			$("#collaboration-rows").append('<div class="row" id="collaboration-'+collaborationCount+'"><div class="col-4"><input type="text" name="industries[]" class="form-control" placeholder="Other Industry"></div><div class="col-4"><input type="text" name="institutions[]" class="form-control" placeholder="Institution"></div><div class="col-2"><select name="collaboration_types[]" class="form-control"> {% for collaboration_type in collaboration_types %} <option value="{{ collaboration_type.pk }}">{{ collaboration_type.name }}</option> {% endfor %} </select></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeCollaboration('+collaborationCount+')">REMOVE</button></div></div>');
 		});
 
 		/*$("#btn-save").on("click",function(){
@@ -68,6 +69,11 @@
 
 {% block content %}
 	<div class="container">
+		<div class="row">
+			<div class="col-12" style="margin-top:30px; margin-bottom:30px">
+				<a href="{% url 'records-index' %}">Records</a> / Add
+			</div>
+		</div>
 		<form method="post" action="{% url 'records-create' %}" id="form-record">
 			{% csrf_token %}
 <!--------------------------------------TITLE AND ABSTRACT---------------------------------------------------->
