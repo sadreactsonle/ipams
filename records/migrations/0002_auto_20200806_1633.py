@@ -87,6 +87,7 @@ def delete_data(apps, schema_editor):
     BudgetType.objects.all().delete()
     ConferenceLevel.objects.all().delete()
     AuthorRole.objects.all().delete()
+    PublicationLevel.objects.all().delete()
 
 
 class Migration(migrations.Migration):
