@@ -85,7 +85,7 @@
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" name="title" class="form-control" placeholder="title">
+						<input type="text" name="title" class="form-control" placeholder="title" required>
 					</div>
 				</div>
 				<div class="row">
@@ -114,7 +114,7 @@
 				<div id="author-rows">
 					<div class="row" id="author-1">
 						<div class="col-7">
-							<input name="author_names[]" placeholder="Name" class="form-control" type="text">
+							<input name="author_names[]" placeholder="Name" class="form-control" type="text" required>
 						</div>
 						<div class="col-3">
 							<select name="author_roles[]" class="form-control">
@@ -169,7 +169,7 @@
 							</select>
 						</div>
 						<div class="col-3">
-							<input type="text" placeholder="Title" name="conference_titles[]" class="form-control">
+							<input type="text" placeholder="Title" name="conference_titles[]" class="form-control" required>
 						</div>
 						<div class="col-2">
 							<input type="date" name="conference_dates[]" class="form-control">
@@ -247,10 +247,10 @@
 							</select>
 						</div>
 						<div class="col-4">
-							<input type="number" name="budget_allocations[]" placeholder="Budget Allocation" class="form-control">
+							<input type="number" name="budget_allocations[]" placeholder="Budget Allocation" class="form-control" required>
 						</div>
 						<div class="col-4">
-							<input type="text" name="funding_sources[]" placeholder="Funding Source" class="form-control">
+							<input type="text" name="funding_sources[]" placeholder="Funding Source" class="form-control" required>
 						</div>
 						<div class="col-2">
 							<button class="btn btn-danger" type="button" onclick="removeBudget(1)">REMOVE</button>
@@ -276,7 +276,7 @@
 							<input type="text" name="industries[]" class="form-control" placeholder="Other Industry">
 						</div>
 						<div class="col-4">
-							<input type="text" name="institutions[]" class="form-control" placeholder="Institution">
+							<input type="text" name="institutions[]" class="form-control" placeholder="Institution" required>
 						</div>
 						<div class="col-2">
 							<select name="collaboration_types[]" class="form-control">
@@ -292,9 +292,10 @@
 				</div>
 			</section>
 
-			<div class="row">
-				<div class="col-12">
-					<button type="submit" class="btn btn-primary" style="margin-top: 30px" id="btn-save">Save</button>
+			<div class="row" style="margin-bottom:30px; margin-top:30px">
+				<div class="col-12 d-flex justify-content-end">
+					<a type="button" href="{% url 'records-index' %}" class="btn btn-warning" id="btn-back">Back to Records</a>&nbsp;
+					<button type="submit" class="btn btn-success" id="btn-save">Save</button>
 				</div>
 			</div>
 		</form>

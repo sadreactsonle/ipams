@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.views import View
-from rest_framework.views import APIView
 
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
     CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
@@ -20,11 +19,35 @@ class Home(View):
         return render(request, self.name, context)
 
 
+class ViewRecord(View):
+    name = 'records/view_record.html'
+
+    def get(self, request, record_id):
+        author_roles = AuthorRole.objects.all()
+        classifications = Classification.objects.all()
+        psced_classifications = PSCEDClassification.objects.all().order_by('name')
+        conference_levels = ConferenceLevel.objects.all()
+        budget_types = BudgetType.objects.all()
+        collaboration_types = CollaborationType.objects.all()
+        publication_levels = PublicationLevel.objects.all()
+        context = {
+            'record': Record.objects.get(pk=record_id),
+            'author_roles': author_roles,
+            'classifications': classifications,
+            'psced_classifications': psced_classifications,
+            'conference_levels': conference_levels,
+            'budget_types': budget_types,
+            'collaboration_types': collaboration_types,
+            'publication_levels': publication_levels,
+        }
+        return render(request, self.name, context)
+
+
 class Create(View):
     name = 'records/create.html'
     author_roles = AuthorRole.objects.all()
     classifications = Classification.objects.all()
-    psced_classifications = PSCEDClassification.objects.all()
+    psced_classifications = PSCEDClassification.objects.all().order_by('name')
     conference_levels = ConferenceLevel.objects.all()
     budget_types = BudgetType.objects.all()
     collaboration_types = CollaborationType.objects.all()
@@ -101,10 +124,91 @@ class ParseExcel(View):
             else:
                 print('upload failed')
 
-            print(len(data['ResearchProductivity']))
-            for i, d in enumerate(data['ResearchProductivity']):
-                if i >= 6:
-                    print(d[0])
+            data = data['ResearchProductivity'][6:][0:]
+            for d in data:
+                if d[0] != 'end of records':
+                    title = d[1]
+                    year_accomplished = d[2]
+                    classification = 1
+                    psced_classification = d[5]
+                    if not d[3]:
+                        classification = 2
+
+                    conference_level = 1
+                    conference_title = d[9]
+                    conference_date = d[14]
+                    conference_venue = d[15]
+                    if d[11]:
+                        conference_levels = 2
+                    elif d[12]:
+                        conference_levels = 3
+                    elif d[13]:
+                        conference_levels = 4
+
+                    record = Record(title=title, year_accomplished=year_accomplished,
+                                    classification=Classification.objects.get(pk=classification),
+                                    psced_classification=PSCEDClassification.objects.get(pk=psced_classification))
+                    record.save()
+                    Conference(title=conference_title,
+                               conference_level=ConferenceLevel.objects.get(pk=conference_level),
+                               date=conference_date, venue=conference_venue, record=record).save()
+                    if d[16]:
+                        publication_name = d[23]
+                        sn_list = "".join(d[24].split()).split(',')
+                        isbn = ''
+                        issn = ''
+                        isi = ''
+                        for sn in sn_list:
+                            if sn.upper().find('ISBN:') >= 0:
+                                isbn = sn.replace('ISBN:', '')
+                            elif sn.upper().find('ISSN:') >= 0:
+                                issn = sn.replace('ISSN:','')
+                            elif sn.upper().find('ISI:') >= 0:
+                                isi = sn.replace('ISI:', '')
+
+                        publication_level = 1
+                        if d[20]:
+                            publication_level = 2
+                        elif d[21]:
+                            publication_level = 3
+                        elif d[22]:
+                            publication_level = 4
+
+                        year_published = d[18]
+                        Publication(name=publication_name, isbn=isbn, issn=issn, isi=isi,
+                                    publication_level=PublicationLevel.objects.get(pk=publication_level),
+                                    year_published=year_published, record=record).save()
+
+                    if d[25]:
+                        budget_type = 1
+                        budget_allocation = d[30]
+                        funding_source = d[31]
+                        if d[28]:
+                            budget_type = 2
+                        elif d[20]:
+                            budget_type = 3
+
+                        Budget(budget_type=BudgetType.objects.get(pk=budget_type),
+                               budget_allocation=budget_allocation,
+                               funding_source=funding_source, record=record).save()
+
+                    if d[32]:
+                        industry = d[34]
+                        institution = d[35]
+                        collaboration_type = 1
+                        if len(d) >= 38:
+                            if d[37]:
+                                collaboration_type = 2
+
+                        elif len(d) >= 39:
+                            if d[38]:
+                                collaboration_type = 3
+
+                        Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_type),
+                                      industry=industry, institution=institution, record=record).save()
+
+                else:
+                    break
 
         except MultiValueDictKeyError:
             print('multivaluedictkeyerror')
