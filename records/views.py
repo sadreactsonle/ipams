@@ -219,9 +219,9 @@ class ParseExcel(View):
                 else:
                     break
 
-        except (MultiValueDictKeyError, KeyError):
+        except (MultiValueDictKeyError, KeyError, ValueError):
             request.session['import_message'] = 'failed'
-            print('Multivaluedictkeyerror')
+            print('Multivaluedictkeyerror/KeyError/ValueError')
         except (DataError, ValidationError):
             request.session['import_message'] = 'failed'
             print('DataError/ValidationError')
