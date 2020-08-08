@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.db import DataError
 from django.shortcuts import render
 from django.views import View
 
@@ -13,8 +15,13 @@ class Home(View):
     name = 'records/index.html'
 
     def get(self, request):
+        import_message = request.session.get('import_message', False)
+        if import_message:
+            del request.session['import_message']
+
         context = {
-            'records': Record.objects.all()
+            'records': Record.objects.all(),
+            'import_message': import_message,
         }
         return render(request, self.name, context)
 
@@ -117,6 +124,7 @@ class ParseExcel(View):
     def post(self, request):
         try:
             excel_file = request.FILES['file']
+            data = {}
             if str(excel_file).split('.')[-1] == 'xls':
                 data = xls_get(excel_file, column_limit=50)
             elif str(excel_file).split('.')[-1] == 'xlsx':
@@ -206,11 +214,16 @@ class ParseExcel(View):
 
                         Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_type),
                                       industry=industry, institution=institution, record=record).save()
+                        request.session['import_message'] = 'success'
 
                 else:
                     break
 
-        except MultiValueDictKeyError:
-            print('multivaluedictkeyerror')
+        except (MultiValueDictKeyError, KeyError):
+            request.session['import_message'] = 'failed'
+            print('Multivaluedictkeyerror')
+        except (DataError, ValidationError):
+            request.session['import_message'] = 'failed'
+            print('DataError/ValidationError')
 
-        return redirect('/records/')
+        return redirect('records-index')
