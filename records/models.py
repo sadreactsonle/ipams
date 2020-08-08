@@ -72,7 +72,7 @@ class Record(models.Model):
 
 
 class Publication(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     isbn = models.CharField(max_length=50)
     issn = models.CharField(max_length=50)
     isi = models.CharField(max_length=50)
