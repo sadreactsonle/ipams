@@ -114,12 +114,12 @@ class Create(View):
 
 
 class ParseExcel(View):
-    def post(self, request, format=None):
+    def post(self, request):
         try:
             excel_file = request.FILES['file']
-            if (str(excel_file).split('.')[-1] == 'xls'):
+            if str(excel_file).split('.')[-1] == 'xls':
                 data = xls_get(excel_file, column_limit=50)
-            elif (str(excel_file).split('.')[-1] == 'xlsx'):
+            elif str(excel_file).split('.')[-1] == 'xlsx':
                 data = xlsx_get(excel_file, column_limit=50)
             else:
                 print('upload failed')
@@ -139,11 +139,11 @@ class ParseExcel(View):
                     conference_date = d[14]
                     conference_venue = d[15]
                     if d[11]:
-                        conference_levels = 2
+                        conference_level = 2
                     elif d[12]:
-                        conference_levels = 3
+                        conference_level = 3
                     elif d[13]:
-                        conference_levels = 4
+                        conference_level = 4
 
                     record = Record(title=title, year_accomplished=year_accomplished,
                                     classification=Classification.objects.get(pk=classification),
