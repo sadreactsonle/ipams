@@ -6,15 +6,24 @@
 		} );
 
 		$("#btn-import").on("click", function(){
-			Swal.fire({
-			  title: 'Import Spreadsheet',
-			  html: 'importing... '+$("#file-import").val(),
-			  allowOutsideClick: false,
-			  onBeforeOpen: () => {
-			    Swal.showLoading()
-			    $("#form-import").submit();
-			  },
-			});
+			if($("#file-import").get(0).files.length>0){
+				Swal.fire({
+				  title: 'Import Spreadsheet',
+				  html: 'importing... '+$("#file-import").val(),
+				  allowOutsideClick: false,
+				  onBeforeOpen: () => {
+				   	Swal.showLoading()
+				   	$("#form-import").submit();
+				  },
+				});
+			}
+			else{
+				Swal.fire({
+				  type: 'warning',
+				  title: 'No File Chosen',
+				  showConfirmButton: true,
+				})
+			}
 		});
 
 		{% if import_message == 'success' %}
