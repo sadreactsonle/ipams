@@ -25,7 +25,12 @@ class RegisterView(View):
                 return redirect('/')
             error_message = 'Password did not match!'
         else:
-            error_message = 'Invalid form'
+            if not form.cleaned_data.get('username'):
+                error_message = 'Username not available'
+            elif not form.cleaned_data.get('email'):
+                error_message = 'That E-mail is already in used by another user'
+            else:
+                error_message = 'Invalid form'
         form = forms.RegistrationForm()
         return render(request, self.name, {'form': form, 'error_message': error_message})
 
@@ -47,7 +52,6 @@ class LoginView(View):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            print(username)
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)

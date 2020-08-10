@@ -53,7 +53,6 @@ class ViewRecord(View):
             'collaboration_types': collaboration_types,
             'publication_levels': publication_levels,
         }
-
         return render(request, self.name, context)
 
 
@@ -128,8 +127,6 @@ class ParseExcel(View):
                 data = xls_get(excel_file, column_limit=50)
             elif str(excel_file).split('.')[-1] == 'xlsx':
                 data = xlsx_get(excel_file, column_limit=50)
-            else:
-                print('upload failed')
             data = data['ResearchProductivity'][6:][0:]
             for d in data:
                 if d[0] != 'end of records':
