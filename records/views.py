@@ -18,7 +18,7 @@ from . import forms
 class Home(View):
     name = 'records/index.html'
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(login_url='/'))
     def get(self, request):
         import_message = request.session.get('import_message', False)
         if import_message:
