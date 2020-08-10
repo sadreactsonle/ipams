@@ -6,6 +6,30 @@ from django.shortcuts import redirect
 from . import forms
 
 
+class RegisterView(View):
+    name = 'accounts/register.html'
+
+    def get(self, request):
+        form = forms.RegistrationForm()
+        return render(request, self.name, {'form': form})
+
+    def post(self, request):
+        form = forms.RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_password()
+            if password:
+                user.set_password(password)
+                user.save()
+                login(request, user)
+                return redirect('/')
+            error_message = 'Password did not match!'
+        else:
+            error_message = 'Invalid form'
+        form = forms.RegistrationForm()
+        return render(request, self.name, {'form': form, 'error_message': error_message})
+
+
 class LoginView(View):
     name = 'accounts/index.html'
 

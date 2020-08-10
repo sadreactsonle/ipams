@@ -34,6 +34,7 @@ class Home(View):
 class ViewRecord(View):
     name = 'records/view_record.html'
 
+    @method_decorator(login_required(login_url='/'))
     def get(self, request, record_id):
         author_roles = AuthorRole.objects.all()
         classifications = Classification.objects.all()
@@ -75,6 +76,7 @@ class Create(View):
         'publication_levels': publication_levels,
     }
 
+    @method_decorator(login_required(login_url='/'))
     def get(self, request):
         return render(request, self.name, self.context)
 
