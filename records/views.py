@@ -118,6 +118,31 @@ class Create(View):
         return render(request, self.name, self.context)
 
 
+class Update(View):
+    name = 'records/update.html'
+
+    @method_decorator(login_required(login_url='/'))
+    def get(self, request, record_id):
+        author_roles = AuthorRole.objects.all()
+        classifications = Classification.objects.all()
+        psced_classifications = PSCEDClassification.objects.all().order_by('name')
+        conference_levels = ConferenceLevel.objects.all()
+        budget_types = BudgetType.objects.all()
+        collaboration_types = CollaborationType.objects.all()
+        publication_levels = PublicationLevel.objects.all()
+        context = {
+            'record': Record.objects.get(pk=record_id),
+            'author_roles': author_roles,
+            'classifications': classifications,
+            'psced_classifications': psced_classifications,
+            'conference_levels': conference_levels,
+            'budget_types': budget_types,
+            'collaboration_types': collaboration_types,
+            'publication_levels': publication_levels,
+        }
+        return render(request, self.name, context)
+
+
 class ParseExcel(View):
     def post(self, request):
         try:

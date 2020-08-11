@@ -57,6 +57,11 @@
             <a href="{% url 'records-index' %}">Records</a> / {{ record.title }}
         </div>
     </div>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+            <a href="{% url 'records-update' record_id=record.pk %}" class="btn btn-warning">Update</a>
+        </div>
+    </div>
     <form method="post" action="{% url 'records-create' %}" id="form-record">
         {% csrf_token %}
         <!--------------------------------------TITLE AND ABSTRACT---------------------------------------------------->
@@ -91,7 +96,7 @@
             </div>
             <div id="author-rows">
                 {% for author in record.author_set.all %}
-                    <div class="row" id="author-1">
+                    <div class="row" id="author-{{ author.pk }}">
                         <div class="col-7">
                             <input name="author_names[]" placeholder="Name" class="form-control" type="text" value="{{ author.name }}" readonly>
                         </div>
