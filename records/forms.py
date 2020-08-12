@@ -1,6 +1,6 @@
 from django import forms
 
-from records.models import Record, Publication, Conference
+from records.models import Record, Publication, Conference, Author
 
 
 class RecordForm(forms.ModelForm):
