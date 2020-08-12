@@ -65,6 +65,7 @@ class Create(View):
     budget_types = BudgetType.objects.all()
     collaboration_types = CollaborationType.objects.all()
     publication_levels = PublicationLevel.objects.all()
+    form = forms.RecordForm()
     context = {
         'author_roles': author_roles,
         'classifications': classifications,
@@ -73,6 +74,7 @@ class Create(View):
         'budget_types': budget_types,
         'collaboration_types': collaboration_types,
         'publication_levels': publication_levels,
+        'form': form,
     }
 
     @method_decorator(login_required(login_url='/'))
