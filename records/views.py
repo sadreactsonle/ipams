@@ -65,7 +65,8 @@ class Create(View):
     budget_types = BudgetType.objects.all()
     collaboration_types = CollaborationType.objects.all()
     publication_levels = PublicationLevel.objects.all()
-    form = forms.RecordForm()
+    record_form = forms.RecordForm()
+    publication_form = forms.PublicationForm()
     context = {
         'author_roles': author_roles,
         'classifications': classifications,
@@ -74,7 +75,8 @@ class Create(View):
         'budget_types': budget_types,
         'collaboration_types': collaboration_types,
         'publication_levels': publication_levels,
-        'form': form,
+        'record_form': record_form,
+        'publication_form': publication_form,
     }
 
     @method_decorator(login_required(login_url='/'))
@@ -88,7 +90,7 @@ class Create(View):
             publication_form = forms.PublicationForm(request.POST)
             if publication_form.is_valid():
                 publication = publication_form.save(commit=False)
-                publication.name = request.POST.get('publication_name')
+                publication.name = publication_form.cleaned_data.get('publication_name')
                 publication.record = record
                 publication.save()
             author_names = request.POST.getlist('author_names[]', None)

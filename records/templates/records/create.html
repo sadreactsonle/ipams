@@ -1,5 +1,5 @@
 {% extends 'ipams/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block footer %}
 	<script>
 		var authorCount = 1;
@@ -87,17 +87,17 @@
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" name="title" class="form-control" placeholder="title" required>
+						{{ record_form.title|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" name="year_accomplished" class="form-control" placeholder="year accomplished">
+						{{ record_form.year_accomplished|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" name="abstract" class="form-control" placeholder="abstract">
+						{{ record_form.abstract|as_crispy_field }}
 					</div>
 				</div>
 			</section>
@@ -194,22 +194,22 @@
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" class="form-control" name="publication_name" placeholder="Name">
+						{{ publication_form.publication_name|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" class="form-control" name="isbn" placeholder="ISBN">
+						{{ publication_form.isbn|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" class="form-control" name="issn" placeholder="ISSN">
+						{{ publication_form.issn|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" class="form-control" name="isi" placeholder="ISI">
+						{{ publication_form.isi|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
@@ -223,7 +223,7 @@
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<input type="text" class="form-control" name="year_published" placeholder="Year Published">
+						{{ publication_form.year_published|as_crispy_field }}
 					</div>
 				</div>
 			</section>
