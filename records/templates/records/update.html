@@ -75,7 +75,7 @@
 				<a href="{% url 'records-index' %}">Records</a> / <a href="{% url 'records-view' record_id=record.pk %}">{{ record.title }}</a> / Update
 			</div>
 		</div>
-		<form method="post" action="{% url 'records-create' %}" id="form-record">
+		<form method="post" action="{% url 'records-add' %}" id="form-record">
 			{% csrf_token %}
 <!--------------------------------------TITLE AND ABSTRACT---------------------------------------------------->
 			<section id="title-and-abstract">

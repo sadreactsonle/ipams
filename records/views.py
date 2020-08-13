@@ -32,7 +32,7 @@ class Home(View):
 
 
 class ViewRecord(View):
-    name = 'records/view_record.html'
+    name = 'records/view.html'
 
     @method_decorator(login_required(login_url='/'))
     def get(self, request, record_id):
@@ -56,8 +56,8 @@ class ViewRecord(View):
         return render(request, self.name, context)
 
 
-class Create(View):
-    name = 'records/create.html'
+class Add(View):
+    name = 'records/add.html'
     author_roles = AuthorRole.objects.all()
     classifications = Classification.objects.all()
     psced_classifications = PSCEDClassification.objects.all().order_by('name')

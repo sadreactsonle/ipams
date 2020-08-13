@@ -1,0 +1,46 @@
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-12">
+        <h3 style="margin-top: 30px">PUBLICATION</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {{ publication_form.publication_name|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {{ publication_form.isbn|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {{ publication_form.issn|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {{ publication_form.isi|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <select name="publication_level" class="form-control">
+            {% for publication_level in publication_levels %}
+            <option value="{{ publication_level.pk }}">{{ publication_level.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {{ publication_form.year_published|as_crispy_field }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-prev btn-yellow-solid" type="button">Prev</button>
+        <button class="btn btn-next btn-yellow-solid" type="button">Next</button>
+    </div>
+</div>

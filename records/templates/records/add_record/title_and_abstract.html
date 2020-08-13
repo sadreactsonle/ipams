@@ -1,0 +1,26 @@
+{% load crispy_forms_tags %}
+<div class="row">
+	<div class="col-12">
+		<h3>TITLE AND ABSTRACT</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		{{ record_form.title|as_crispy_field }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		{{ record_form.year_accomplished|as_crispy_field }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		{{ record_form.abstract|as_crispy_field }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 d-flex justify-content-end">
+		<button class="btn btn-next btn-yellow-solid" type="button">Next</button>
+	</div>
+</div>

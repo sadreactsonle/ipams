@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-12">
+        <h3 style="margin-top: 30px">PUBLICATION</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <input type="text" class="form-control" name="publication_name" placeholder="Name" value="{{ record.publication.name }}" readonly>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <input type="text" class="form-control" name="isbn" placeholder="ISBN" value="{{ record.publication.isbn }}" readonly>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <input type="text" class="form-control" name="issn" placeholder="ISSN" value="{{ record.publication.issn }}" readonly>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <input type="text" class="form-control" name="isi" placeholder="ISI" value="{{ record.publication.isi }}" readonly>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <select name="publication_level" class="form-control" disabled>
+            {% for publication_level in publication_levels %}
+            <option value="{{ publication_level.pk }}" {% if record.publication.publication_level.pk == publication_level.pk %} selected {% endif %}>{{ publication_level.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <input type="text" class="form-control" name="year_published" placeholder="Year Published" value="{{ record.publication.year_published }}" readonly>
+    </div>
+</div>
