@@ -26,11 +26,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <select name="publication_level" class="form-control">
-            {% for publication_level in publication_levels %}
-            <option value="{{ publication_level.pk }}">{{ publication_level.name }}</option>
-            {% endfor %}
-        </select>
+        {{ publication_form.publication_level|as_crispy_field }}
     </div>
 </div>
 <div class="row">

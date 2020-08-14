@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <div class="row">
     <div class="col-12">
         <h3 style="margin-top: 30px">AUTHORS AND CATEGORIES</h3>
@@ -14,9 +15,10 @@
             <input name="author_names[]" placeholder="Name" class="form-control" type="text" required>
         </div>
         <div class="col-3">
+            {{ author_form }}
             <select name="author_roles[]" class="form-control">
                 {% for author_role in author_roles %}
-                <option value="{{ author_role.pk }}">{{ author_role.name }}</option>
+                    <option value="{{ author_role.pk }}">{{ author_role.name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -27,20 +29,12 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <select name="classification" class="form-control">
-            {% for classification in classifications %}
-            <option value="{{ classification.pk }}">{{ classification.name }}</option>
-            {% endfor %}
-        </select>
+        {{ record_form.classification|as_crispy_field }}
     </div>
 </div>
 <div class="row">
     <div class="col-12">
-        <select name="psced_classification" class="form-control">
-            {% for psced_classification in psced_classifications %}
-            <option value="{{ psced_classification.pk }}">{{ psced_classification.name }}</option>
-            {% endfor %}
-        </select>
+        {{ record_form.psced_classification|as_crispy_field }}
     </div>
 </div>
 <div class="row">

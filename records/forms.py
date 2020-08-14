@@ -17,6 +17,13 @@ class PublicationForm(forms.ModelForm):
         model = Publication
         fields = ('isbn', 'issn', 'isi', 'year_published', 'publication_level')
 
+    def save(self, commit=True):
+        m = super(PublicationForm, self).save(commit=False)
+        m.name = self.cleaned_data.get('publication_name')
+        if commit:
+            m.save()
+        return m
+
 
 class AuthorForm(forms.ModelForm):
 

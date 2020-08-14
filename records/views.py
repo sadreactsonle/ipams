@@ -59,24 +59,21 @@ class ViewRecord(View):
 class Add(View):
     name = 'records/add.html'
     author_roles = AuthorRole.objects.all()
-    classifications = Classification.objects.all()
-    psced_classifications = PSCEDClassification.objects.all().order_by('name')
     conference_levels = ConferenceLevel.objects.all()
     budget_types = BudgetType.objects.all()
     collaboration_types = CollaborationType.objects.all()
-    publication_levels = PublicationLevel.objects.all()
     record_form = forms.RecordForm()
     publication_form = forms.PublicationForm()
+    AuthorFormset = modelformset_factory(Author, fields=('name', 'author_role'), extra=2)
+    author_form = AuthorFormset(queryset=Author.objects.none())
     context = {
         'author_roles': author_roles,
-        'classifications': classifications,
-        'psced_classifications': psced_classifications,
         'conference_levels': conference_levels,
         'budget_types': budget_types,
         'collaboration_types': collaboration_types,
-        'publication_levels': publication_levels,
         'record_form': record_form,
         'publication_form': publication_form,
+        'author_form': author_form,
     }
 
     @method_decorator(login_required(login_url='/'))
@@ -90,7 +87,6 @@ class Add(View):
             publication_form = forms.PublicationForm(request.POST)
             if publication_form.is_valid():
                 publication = publication_form.save(commit=False)
-                publication.name = publication_form.cleaned_data.get('publication_name')
                 publication.record = record
                 publication.save()
             author_names = request.POST.getlist('author_names[]', None)
