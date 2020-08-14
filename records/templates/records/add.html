@@ -74,6 +74,23 @@
 			});
 		});
 	</script>
+	<script>
+    $.ajax({
+        url: "{% url 'records-add' %}",
+        data:{
+            $('#author-rows').serialize()
+        },
+        type: 'post',
+        dataType:'json',
+        success: function(data){
+            alert('success');
+        },
+        error: function(data){
+            alert('error');
+        },
+    });
+</script>
+
 {% endblock %}
 
 {% block content %}

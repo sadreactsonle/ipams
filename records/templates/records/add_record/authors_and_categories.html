@@ -10,6 +10,7 @@
     </div>
 </div>
 <div id="author-rows">
+    {% csrf_token %}
     <div class="row" id="author-1">
         <div class="col-7">
             <input name="author_names[]" placeholder="Name" class="form-control" type="text" required>
@@ -43,4 +44,5 @@
 		<button class="btn btn-next btn-yellow-solid" type="button">Next</button>
 	</div>
 </div>
+
 

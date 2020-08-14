@@ -3,6 +3,7 @@ from django.db import DataError
 from django.forms import modelformset_factory
 from django.shortcuts import render
 from django.views import View
+from django.http import HttpResponse
 
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
     CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
@@ -81,6 +82,12 @@ class Add(View):
         return render(request, self.name, self.context)
 
     def post(self, request):
+        if request.is_ajax:
+            print('ajax baby')
+            author_form = self.AuthorFormset(request.POST)
+            if author_form.is_valid:
+                print(author_form)  
+                return HttpResponse(author_form)
         record_form = forms.RecordForm(request.POST)
         if record_form.is_valid():
             record = record_form.save()
