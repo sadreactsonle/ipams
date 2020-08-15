@@ -161,7 +161,7 @@
 			<div class="tab-pane fade" id="nav-home-upload" role="tabpanel">
 				<section id="home-upload">
 					<div class="row">
-						<div class="col-8">
+						<div class="col-lg-8">
 							<h1>How to migrate data from spreadsheet?</h1>
 							<ol>
 								<li>Follow the data entry format which can be viewed <a href="#">HERE</a>.</li>
@@ -171,7 +171,7 @@ section with the new entry.</li>
 								<li>After the format is thouroughly followed, Press GENERATE to add the records.</li>
 							</ol>
 						</div>
-						<div class="col-4">
+						<div class="col-lg-4">
 							<form id="form-import" action="{% url 'records-upload' %}" method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
 								<div class="row">
@@ -205,69 +205,69 @@ section with the new entry.</li>
 	      <div class="modal-body">
 	        <div class="container">
 				<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Year</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						<input class="form-control">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Class</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						{{ record_form.classification|as_crispy_field }}
 					</div>
 				</div>
 			 	<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>PSCED</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						{{ record_form.psced_classification|as_crispy_field }}
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Author</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						<input class="form-control">
 					</div>
 				</div>
 		  		<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Conference Title</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						<input class="form-control">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Publication Name</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						<input class="form-control">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Total Budget</label>
 					</div>
-					<div class="col-3">
+					<div class="col-lg-3">
 						<input class="form-control">
 					</div>
-					<div class="col-3">
+					<div class="col-lg-3">
 						<input class="form-control">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-5">
+					<div class="col-lg-5">
 						<label>Collaborator</label>
 					</div>
-					<div class="col-7">
+					<div class="col-lg-7">
 						<input class="form-control">
 					</div>
 				</div>
