@@ -73,23 +73,17 @@
 				$(".nav-tabs > .active").prev(".nav-item").trigger("click");
 			});
 		});
+
+
+		{% for error in error_messages %}
+			Swal.fire({
+			  type: 'warning',
+			  title: '{{ error.title }}!',
+			  html: '{{ error.body }}',
+			  showConfirmButton: true,
+			});
+		{% endfor %}
 	</script>
-	<script>
-    $.ajax({
-        url: "{% url 'records-add' %}",
-        data:{
-            $('#author-rows').serialize()
-        },
-        type: 'post',
-        dataType:'json',
-        success: function(data){
-            alert('success');
-        },
-        error: function(data){
-            alert('error');
-        },
-    });
-</script>
 
 {% endblock %}
 
@@ -103,7 +97,7 @@
 		<form method="post" action="{% url 'records-add' %}" id="form-record">
 			{% csrf_token %}
 			<div style="display:none">
-				{% include 'records/navbar.html' %}
+				{% include 'records/record_navbar.html' %}
 			</div>
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tabheaher">&nbsp;</div>

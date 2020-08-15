@@ -83,7 +83,7 @@ class Publication(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=100)
-    record = models.ForeignKey(Record, on_delete=models.DO_NOTHING)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
     author_role = models.ForeignKey(AuthorRole, on_delete=models.DO_NOTHING)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -93,7 +93,7 @@ class Conference(models.Model):
     date = models.DateField()
     venue = models.CharField(max_length=100)
     conference_level = models.ForeignKey(ConferenceLevel, on_delete=models.DO_NOTHING)
-    record = models.ForeignKey(Record, on_delete=models.DO_NOTHING)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
 
@@ -101,7 +101,7 @@ class Budget(models.Model):
     budget_allocation = models.FloatField()
     funding_source = models.CharField(max_length=100)
     budget_type = models.ForeignKey(BudgetType, on_delete=models.DO_NOTHING)
-    record = models.ForeignKey(Record, on_delete=models.DO_NOTHING)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
 
@@ -109,5 +109,5 @@ class Collaboration(models.Model):
     industry = models.CharField(max_length=100)
     institution = models.CharField(max_length=100)
     collaboration_type = models.ForeignKey(CollaborationType, on_delete=models.DO_NOTHING)
-    record = models.ForeignKey(Record, on_delete=models.DO_NOTHING)
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)

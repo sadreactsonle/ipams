@@ -1,0 +1,30 @@
+>>saving record
+-will give an error if the file being saved has the same info for the title, year, class and psced
+-will redirect to the records home after saving
+
+>>removing records
+-can only remove checked research title which is shown on the same page in the table
+-clicking remove when there's no title checked will result to nothing
+-can remove multiple records at once and give a message that you have successfully removed the rows
+
+>>importing spreadsheet
+-must be exactly the correct format including the date format
+-imported rows research title, year, class, psced all together must be unique
+-will give a warning if no file is chosen
+-will give an error if the imported file is not an excel file
+?-will give an error if the imported excel file has unexpected row values and will not continue
+-rows which already has the same info for title, year, class and psced will not be saved
+-there must be an 'end of records' text on the row after all the imported rows
+-will give a success message that you have successfully imported the file's data
+
+>>accounts
+-registering to any account from the ipams cannot access the django admin page
+-after registration, the account is automatically logged in and will redirect to the records home
+-logging in will redirect to the login page
+-logging in with incorrect credentials will give an error message
+-logging out will automatically redirect to the records home
+-trying to access sites which requires login will redirect to login page with an error messgae
+
+
+issues:
+import success alert is not behaving correctly

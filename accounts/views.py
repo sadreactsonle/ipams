@@ -11,7 +11,7 @@ class RegisterView(View):
 
     def get(self, request):
         form = forms.RegistrationForm()
-        return render(request, self.name, {'form': form})
+        return render(request, self.name, {'form': form, 'hide_profile': True})
 
     def post(self, request):
         form = forms.RegistrationForm(request.POST)
@@ -32,7 +32,7 @@ class RegisterView(View):
             else:
                 error_message = 'Invalid form'
         form = forms.RegistrationForm()
-        return render(request, self.name, {'form': form, 'error_message': error_message})
+        return render(request, self.name, {'form': form, 'error_message': error_message, 'hide_profile': True})
 
 
 class LoginView(View):
@@ -45,7 +45,7 @@ class LoginView(View):
         error_message = None
         if request.GET.get('next'):
             error_message = 'Login Required'
-        return render(request, self.name, {'form': form, 'error_message': error_message})
+        return render(request, self.name, {'form': form, 'error_message': error_message, 'hide_profile': True})
 
     def post(self, request):
         form = forms.LoginForm(request.POST)
@@ -57,7 +57,8 @@ class LoginView(View):
                 login(request, user)
                 return redirect('records-index')
         form = forms.LoginForm()
-        return render(request, self.name, {'error_message': 'Invalid Username/Password', 'form': form})
+        return render(request, self.name, {'error_message': 'Invalid Username/Password',
+                                           'form': form, 'hide_profile':True})
 
 
 def logout(request):

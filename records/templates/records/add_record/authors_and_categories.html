@@ -10,13 +10,11 @@
     </div>
 </div>
 <div id="author-rows">
-    {% csrf_token %}
     <div class="row" id="author-1">
         <div class="col-7">
             <input name="author_names[]" placeholder="Name" class="form-control" type="text" required>
         </div>
         <div class="col-3">
-            {{ author_form }}
             <select name="author_roles[]" class="form-control">
                 {% for author_role in author_roles %}
                     <option value="{{ author_role.pk }}">{{ author_role.name }}</option>

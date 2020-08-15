@@ -1,6 +1,7 @@
 from django import forms
 
-from records.models import Record, Publication, Conference, Author, Collaboration, Budget, AuthorRole, PublicationLevel
+from records.models import Record, Publication, Conference, Author, Collaboration, Budget, AuthorRole, PublicationLevel, \
+    Classification, PSCEDClassification
 
 
 class RecordForm(forms.ModelForm):
@@ -8,6 +9,19 @@ class RecordForm(forms.ModelForm):
     class Meta:
         model = Record
         fields = ('title', 'year_accomplished', 'abstract', 'classification', 'psced_classification')
+
+    def save(self, commit=True):
+        title = self.cleaned_data.get('title')
+        year_accomplished = self.cleaned_data.get('year_accomplished')
+        classification = self.cleaned_data.get('classification')
+        psced_classification = self.cleaned_data.get('psced_classification')
+        record_len = len(Record.objects.filter(title=title, year_accomplished=year_accomplished,
+                                               classification=classification,
+                                               psced_classification=psced_classification))
+        if record_len == 0:
+            m = super(RecordForm, self).save()
+            return m
+        return None
 
 
 class PublicationForm(forms.ModelForm):

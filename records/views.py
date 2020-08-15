@@ -3,14 +3,14 @@ from django.db import DataError
 from django.forms import modelformset_factory
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
     CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
 from django.shortcuts import redirect
 from pyexcel_xls import get_data as xls_get
 from pyexcel_xlsx import get_data as xlsx_get
-from django.utils.datastructures import  MultiValueDictKeyError
+from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from . import forms
@@ -28,8 +28,32 @@ class Home(View):
         context = {
             'records': Record.objects.all(),
             'import_message': import_message,
+            'record_form': forms.RecordForm(),
         }
         return render(request, self.name, context)
+
+    def post(self, request):
+        if request.is_ajax():
+            # removing records
+            if request.POST.get('remove'):
+                titles = request.POST.getlist('titles[]')
+                for title_id in titles:
+                    Record.objects.get(pk=int(title_id)).delete()
+                return JsonResponse({'success': True})
+            data = []
+            # getting the datatables data
+            for record in Record.objects.all():
+                data.append([
+                    '<div class="checkbox"><label>'
+                    '<input class="title-checkbox" name="title-checkbox" type="checkbox" value="' + str(
+                        record.pk) + '">'
+                                     '<a href="/records/view/' + str(
+                        record.pk) + '">' + record.title + '</a></label></div>',
+                    record.year_accomplished,
+                    record.classification.name,
+                    record.psced_classification.name
+                ])
+            return JsonResponse({"data": data})
 
 
 class ViewRecord(View):
@@ -65,64 +89,72 @@ class Add(View):
     collaboration_types = CollaborationType.objects.all()
     record_form = forms.RecordForm()
     publication_form = forms.PublicationForm()
-    AuthorFormset = modelformset_factory(Author, fields=('name', 'author_role'), extra=2)
-    author_form = AuthorFormset(queryset=Author.objects.none())
-    context = {
-        'author_roles': author_roles,
-        'conference_levels': conference_levels,
-        'budget_types': budget_types,
-        'collaboration_types': collaboration_types,
-        'record_form': record_form,
-        'publication_form': publication_form,
-        'author_form': author_form,
-    }
 
     @method_decorator(login_required(login_url='/'))
     def get(self, request):
-        return render(request, self.name, self.context)
+        context = {
+            'author_roles': self.author_roles,
+            'conference_levels': self.conference_levels,
+            'budget_types': self.budget_types,
+            'collaboration_types': self.collaboration_types,
+            'record_form': self.record_form,
+            'publication_form': self.publication_form,
+        }
+        return render(request, self.name, context)
 
     def post(self, request):
-        if request.is_ajax:
-            print('ajax baby')
-            author_form = self.AuthorFormset(request.POST)
-            if author_form.is_valid:
-                print(author_form)  
-                return HttpResponse(author_form)
+        error_messages = []
         record_form = forms.RecordForm(request.POST)
         if record_form.is_valid():
             record = record_form.save()
-            publication_form = forms.PublicationForm(request.POST)
-            if publication_form.is_valid():
-                publication = publication_form.save(commit=False)
-                publication.record = record
-                publication.save()
-            author_names = request.POST.getlist('author_names[]', None)
-            author_roles = request.POST.getlist('author_roles[]', None)
-            conference_levels = request.POST.getlist('conference_levels[]', None)
-            conference_titles = request.POST.getlist('conference_titles[]', None)
-            conference_dates = request.POST.getlist('conference_dates[]', None)
-            conference_venues = request.POST.getlist('conference_venues[]', None)
+            if record is not None:
+                publication_form = forms.PublicationForm(request.POST)
+                if publication_form.is_valid():
+                    publication = publication_form.save(commit=False)
+                    publication.record = record
+                    publication.save()
+                author_names = request.POST.getlist('author_names[]', None)
+                author_roles = request.POST.getlist('author_roles[]', None)
+                conference_levels = request.POST.getlist('conference_levels[]', None)
+                conference_titles = request.POST.getlist('conference_titles[]', None)
+                conference_dates = request.POST.getlist('conference_dates[]', None)
+                conference_venues = request.POST.getlist('conference_venues[]', None)
 
-            budget_types = request.POST.getlist('budget_types[]', None)
-            budget_allocations = request.POST.getlist('budget_allocations[]', None)
-            funding_sources = request.POST.getlist('funding_sources[]', None)
-            industries = request.POST.getlist('industries[]', None)
-            institutions = request.POST.getlist('institutions[]', None)
-            collaboration_types = request.POST.getlist('collaboration_types[]', None)
-            for i, author_name in enumerate(author_names):
-                Author(name=author_name, author_role=AuthorRole.objects.get(pk=author_roles[i]), record=record).save()
+                budget_types = request.POST.getlist('budget_types[]', None)
+                budget_allocations = request.POST.getlist('budget_allocations[]', None)
+                funding_sources = request.POST.getlist('funding_sources[]', None)
+                industries = request.POST.getlist('industries[]', None)
+                institutions = request.POST.getlist('institutions[]', None)
+                collaboration_types = request.POST.getlist('collaboration_types[]', None)
+                for i, author_name in enumerate(author_names):
+                    Author(name=author_name, author_role=AuthorRole.objects.get(pk=author_roles[i]), record=record).save()
 
-            for i, conference_title in enumerate(conference_titles):
-                Conference(title=conference_title, conference_level=ConferenceLevel.objects.get(pk=conference_levels[i]),
-                           date=conference_dates[i], venue=conference_venues[i], record=record).save()
+                for i, conference_title in enumerate(conference_titles):
+                    Conference(title=conference_title,
+                               conference_level=ConferenceLevel.objects.get(pk=conference_levels[i]),
+                               date=conference_dates[i], venue=conference_venues[i], record=record).save()
 
-            for i, budget_type in enumerate(budget_types):
-                Budget(budget_type = BudgetType.objects.get(pk=budget_types[i]), budget_allocation=budget_allocations[i],
-                       funding_source=funding_sources[i], record=record).save()
-            for i, collaboration_type in enumerate(collaboration_types):
-                Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_types[i]),
-                              industry=industries[i], institution=institutions[i], record=record).save()
-        return render(request, self.name, self.context)
+                for i, budget_type in enumerate(budget_types):
+                    Budget(budget_type=BudgetType.objects.get(pk=budget_types[i]), budget_allocation=budget_allocations[i],
+                           funding_source=funding_sources[i], record=record).save()
+                for i, collaboration_type in enumerate(collaboration_types):
+                    Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_types[i]),
+                                  industry=industries[i], institution=institutions[i], record=record).save()
+                return redirect('records-index')
+            else:
+                error = {'title': 'Unable to save record', 'body': 'A record with the same record information already exists'}
+                error_messages.append(error)
+
+        context = {
+            'author_roles': self.author_roles,
+            'conference_levels': self.conference_levels,
+            'budget_types': self.budget_types,
+            'collaboration_types': self.collaboration_types,
+            'record_form': self.record_form,
+            'publication_form': self.publication_form,
+            'error_messages': error_messages,
+        }
+        return render(request, self.name, context)
 
 
 class Update(View):
@@ -178,10 +210,17 @@ class ParseExcel(View):
                         conference_level = 3
                     elif d[13]:
                         conference_level = 4
-                    record = Record(title=title, year_accomplished=year_accomplished,
-                                    classification=Classification.objects.get(pk=classification),
-                                    psced_classification=PSCEDClassification.objects.get(pk=psced_classification))
-                    record.save()
+                    record_len = len(Record.objects.filter(title=title, year_accomplished=year_accomplished,
+                                                 classification=Classification.objects.get(pk=classification),
+                                                 psced_classification=PSCEDClassification.objects.get(
+                                                     pk=psced_classification)))
+                    if record_len == 0:
+                        record = Record(title=title, year_accomplished=year_accomplished,
+                                        classification=Classification.objects.get(pk=classification),
+                                        psced_classification=PSCEDClassification.objects.get(pk=psced_classification))
+                        record.save()
+                    else:
+                        continue
                     Conference(title=conference_title,
                                conference_level=ConferenceLevel.objects.get(pk=conference_level),
                                date=conference_date, venue=conference_venue, record=record).save()
@@ -195,7 +234,7 @@ class ParseExcel(View):
                             if sn.upper().find('ISBN:') >= 0:
                                 isbn = sn.replace('ISBN:', '')
                             elif sn.upper().find('ISSN:') >= 0:
-                                issn = sn.replace('ISSN:','')
+                                issn = sn.replace('ISSN:', '')
                             elif sn.upper().find('ISI:') >= 0:
                                 isi = sn.replace('ISI:', '')
                         publication_level = 1

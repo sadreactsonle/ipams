@@ -10,7 +10,7 @@ class LoginForm(forms.Form):
 
 
 class RegistrationForm(forms.ModelForm):
-    role = forms.ChoiceField(choices=(('rdco', 'rdco'), ('ktto', 'ktto'), ('teacher', 'teacher'), ('student', 'student')))
+    role = forms.ChoiceField(choices=(('rdco', 'rdco'), ('ktto', 'ktto'), ('adviser', 'adviser'), ('student', 'student')))
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
