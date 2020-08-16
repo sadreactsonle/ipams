@@ -11,16 +11,37 @@
 	<script>
 //-----------------------initializing datatable---------------------------------------------
 		var recordsTbl='a';
+		var filters = {
+			"is_filtered": "{{ filters.is_filtered }}",
+			"year_accomplished": "{{ filters.year_accomplished }}",
+			"classification": "{{ filters.classification }}",
+			"psced_classification": "{{ filters.psced_classification }}",
+			"publication": "{{ filters.publication }}"
+		}
 		$(document).ready(function() {
 		    recordsTbl = $('#tbl-records').DataTable({
 		    	"ajax":	{
 		    		"headers": { "X-CSRFToken": '{{ csrf_token }}' },
 		    		"url": "{% url 'records-index' %}",
-		    		"data": {"test": "test"},
-		    		"type": "post"
+		    		"data": filters,
+		    		"type": "post",
 		    	},
-		    	"order": [[ 1, "desc" ], [ 0, "asc" ]]
+		    	"scrollX": true,
+		    	"responsive": true,
+		    	"order": [[ 2, "desc" ], [ 1, "asc" ]],
+				"select": {
+        		    style: 'multi'
+        		},
+        		"columnDefs": [
+        		    {
+        		        "targets": [ 0 ],
+        		        "visible": false,
+        		        "searchable": false
+        		    },
+        		],
 		    });
+		    $("#id_classification").val("{{ filters.classification }}");
+		    $("#id_psced_classification").val("{{ filters.psced_classification }}");
 		} );
 //------------------------importing spreadsheet----------------------------------------------
 		$("#btn-import").on("click", function(){
@@ -46,9 +67,11 @@
 //--------------------------removing selected rows--------------------------------------
 		$("#btn-remove").on("click", function(){
 			var titles = [];
-			$.each($("input[name='title-checkbox']:checked"), function(){
-                titles.push($(this).val());
-            });
+			var rows = recordsTbl.rows({"selected":true});
+            $.each(rows.data(), function () {
+			    var row = this;
+			    titles.push(row[0]);
+			} );
             if(titles.length>0){
 				Swal.fire({
 				  title: 'Are you sure you want to delete the selected items?',
@@ -80,10 +103,133 @@
 				  }
 				})
 			}
-
-
-
 		});
+//---------------------------------Graphs---------------------------------------------
+
+		$.ajax({
+		    "headers": { "X-CSRFToken": '{{ csrf_token }}' },
+		    "url": "{% url 'records-index' %}",
+		    "type": "post",
+		    "data": {"graphs": true},
+		    "success": function(response){
+		//-------------------------applied vs. basic------------------------------------
+				var ctx = document.getElementById('appliedVsBasic').getContext('2d');
+		    	data = [response.basic, response.applied];
+				var settings = {
+				    type: 'bar',
+				    data: {
+				        labels: ['Applied', 'Basic'],
+				        datasets: [{
+				            data: data,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				            ],
+				            borderColor: [
+				                'rgba(255, 99, 132, 1)',
+				                'rgba(54, 162, 235, 1)',
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				    	title: {
+				    	  display: true,
+				    	  text: 'Applied vs Basic'
+				    	},
+				        scales: {
+				            yAxes: [{
+				                ticks: {
+				                    beginAtZero: true
+				                }
+				            }]
+				        },
+				        legend: {
+				        	display: false
+				        }
+				    }
+				};
+		    	settings.data.data = data;
+				var appliedVsBasic = new Chart(ctx, settings);
+		//------------------------------------No. of Classification-------------------------------------
+				var psced_names = [];
+				var psced_count = [];
+				psced = response.psced_count;
+				for( var i=0; i<response.psced_count.length; i++ ){
+					psced_names[i] = psced[i]['name'];
+					psced_count[i] = psced[i]['count'];
+				}
+				new Chart(document.getElementById("noOfClassifications"), {
+				    type: 'horizontalBar',
+				    data: {
+				      labels: psced_names,
+				      datasets: [{
+				        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850",
+				        	"#a88132","#92a832","#34a832","#32a88c","#327da8",
+				        	"#3a32a8","#7b32a8","#a8327f","#e3e08f","#8fe3bd",
+				        	"#fc8c03","#8cfffb","#b48cff","#8584a1","#1f4d3e"],
+				        data: psced_count
+				      }]
+				    },
+				    options: {
+				      title: {
+				        display: true,
+				        text: 'Number of Classifications'
+				      },
+				      legend: {
+		    		    display: false
+		    		  }
+				    }
+				});
+		    },
+		    "error": function(data){
+		    	alert("error");
+		    }
+		});
+
+		new Chart(document.getElementById("recordsPerYear"), {
+		  type: 'line',
+		  data: {
+		    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+		    datasets: [{
+		        data: [86,114,106,106,107,111,133,221,783,2478],
+		        label: "Records",
+		        borderColor: "#3e95cd",
+		        fill: false
+		      }
+		    ]
+		  },
+		  options: {
+		    title: {
+		      display: true,
+		      text: 'Records per Year'
+		    },
+		    legend: {
+		      display: false
+		    }
+		  }
+		});
+
+		new Chart(document.getElementById("classificationPerYear"), {
+		    type: 'horizontalBar',
+		    data: {
+		      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+		      datasets: [
+		        {
+		          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+		          data: [2478,5267,734,784,433]
+		        }
+		      ]
+		    },
+		    options: {
+		      legend: { display: false },
+		      title: {
+		        display: true,
+		        text: 'Number of Classifications Per Year'
+		      }
+		    }
+		});
+
 //-------------------------------error messages---------------------------------------
 		{% if import_message == 'success' %}
 			Swal.fire({
@@ -131,6 +277,7 @@
 							<table id="tbl-records" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
 						        <thead>
 						            <tr>
+										<th>ID</th>
 						                <th>RESEARCH TITLE</th>
 						                <th>YEAR</th>
 						                <th>CLASS</th>
@@ -152,8 +299,22 @@
 						</div>
 					</div>
 					<div class="row">
+						<div class="col-6">
+							<canvas id="appliedVsBasic"></canvas>
+
+						</div>
+						<div class="col-6">
+							<canvas id="recordsPerYear"></canvas>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 30px">
+						<div class="offset-3 col-6">
+							<canvas id="classificationPerYear"></canvas>
+						</div>
+					</div>
+					<div class="row" style="margin-top:30px">
 						<div class="col-12">
-							<p>coming soon...</p>
+							<canvas id="noOfClassifications"></canvas>
 						</div>
 					</div>
 				</section>
@@ -164,7 +325,7 @@
 						<div class="col-lg-8">
 							<h1>How to migrate data from spreadsheet?</h1>
 							<ol>
-								<li>Follow the data entry format which can be viewed <a href="#">HERE</a>.</li>
+								<li>Follow the data entry format which can be viewed <a href="{% url 'records-download-format' %}">HERE</a>.</li>
 								<li>When adding a new entry to a section, simply duplicate the record row and replace the existing
 section with the new entry.</li>
 								<li>The migration stops when they read a merged cell that contains END OF RECORDS.</li>
@@ -196,88 +357,116 @@ section with the new entry.</li>
 	<div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Filter</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <div class="container">
-				<div class="row">
-					<div class="col-lg-5">
-						<label>Year</label>
+			<form method="post">
+				{% csrf_token %}
+	    	  <div class="modal-header">
+	    	    <h5 class="modal-title">Filter</h5>
+	    	    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	    	      <span aria-hidden="true">&times;</span>
+	    	    </button>
+	    	  </div>
+	    	  <div class="modal-body">
+	    	    <div class="container">
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="year_cb" name="year_cb" {% if filters.year_accomplished is not None %} checked {% endif %}>
+							  <label class="form-check-label" for="year_cb">
+							    Year
+							  </label>
+							</div>
+						</div>
+						<div class="col-lg-7">
+							<input class="form-control" name="year_accomplished" value="{{ filters.year_accomplished }}">
+						</div>
 					</div>
-					<div class="col-lg-7">
-						<input class="form-control">
+					<div class="row">
+						<div class="col-lg-12">
+							{{ record_form.classification|as_crispy_field }}
+						</div>
+					</div>
+				 	<div class="row">
+						<div class="col-lg-12">
+							{{ record_form.psced_classification|as_crispy_field }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="author_cb">
+							  <label class="form-check-label" for="author_cb">
+							    Author
+							  </label>
+							</div>
+						</div>
+						<div class="col-lg-7">
+							<input class="form-control">
+						</div>
+					</div>
+			  		<div class="row">
+						<div class="col-lg-5">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="conference_cb">
+							  <label class="form-check-label" for="conference_cb">
+							    Conference Title
+							  </label>
+							</div>
+						</div>
+						<div class="col-lg-7">
+							<input class="form-control">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" name="publication_cb" id="publication_cb" {% if filters.publication is not None %} checked {% endif %}>
+							  <label class="form-check-label" for="publication_cb">
+							    Publication Name
+							  </label>
+							</div>
+						</div>
+						<div class="col-lg-7">
+							<input class="form-control" name="publication" value="{{ filters.publication }}">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="budget_cb">
+							  <label class="form-check-label" for="budget_cb">
+							    Total Budget
+							  </label>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<input class="form-control" placeholder="min">
+						</div>
+						<div class="col-lg-3">
+							<input class="form-control" placeholder="max">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="collaborator_cb">
+							  <label class="form-check-label" for="collaborator_cb">
+							    Collaborator
+							  </label>
+							</div>
+						</div>
+						<div class="col-lg-7">
+							<input class="form-control">
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-lg-5">
-						<label>Class</label>
-					</div>
-					<div class="col-lg-7">
-						{{ record_form.classification|as_crispy_field }}
-					</div>
-				</div>
-			 	<div class="row">
-					<div class="col-lg-5">
-						<label>PSCED</label>
-					</div>
-					<div class="col-lg-7">
-						{{ record_form.psced_classification|as_crispy_field }}
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-5">
-						<label>Author</label>
-					</div>
-					<div class="col-lg-7">
-						<input class="form-control">
-					</div>
-				</div>
-		  		<div class="row">
-					<div class="col-lg-5">
-						<label>Conference Title</label>
-					</div>
-					<div class="col-lg-7">
-						<input class="form-control">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-5">
-						<label>Publication Name</label>
-					</div>
-					<div class="col-lg-7">
-						<input class="form-control">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-5">
-						<label>Total Budget</label>
-					</div>
-					<div class="col-lg-3">
-						<input class="form-control">
-					</div>
-					<div class="col-lg-3">
-						<input class="form-control">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-5">
-						<label>Collaborator</label>
-					</div>
-					<div class="col-lg-7">
-						<input class="form-control">
-					</div>
-				</div>
-			</div>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save changes</button>
-	      </div>
-	    </div>
+	    	  </div>
+	    	  <div class="modal-footer">
+				  <input type="hidden" value="true" name="is_filtered"/>
+	    	    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	    	    <button type="submit" id="btn-filter-save" class="btn btn-primary">Save changes</button>
+	    	  </div>
+				</form>
+	    	</div>
 	  </div>
 	</div>
 {% endblock %}

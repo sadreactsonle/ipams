@@ -1,3 +1,6 @@
+import json
+import mimetypes
+
 from django.core.exceptions import ValidationError
 from django.db import DataError
 from django.forms import modelformset_factory
@@ -24,7 +27,6 @@ class Home(View):
         import_message = request.session.get('import_message', False)
         if import_message:
             del request.session['import_message']
-
         context = {
             'records': Record.objects.all(),
             'import_message': import_message,
@@ -34,26 +36,77 @@ class Home(View):
 
     def post(self, request):
         if request.is_ajax():
+            data = []
+            records = Record.objects.all()
+            # graphs
+            if request.POST.get('graphs'):
+                basic_count = Record.objects.filter(classification=1).count()
+                applied_count = Record.objects.filter(classification=2).count()
+                psced_count = []
+                psced_classifications = PSCEDClassification.objects.all()
+                for psced in psced_classifications:
+                    psced_count.append({'name': psced.name, 'count': Record.objects.filter(
+                        psced_classification=PSCEDClassification.objects.get(pk=psced.id)).count()})
+                return JsonResponse({'success': True, 'basic': basic_count, 'applied': applied_count,
+                                     'psced_count': psced_count})
             # removing records
-            if request.POST.get('remove'):
+            elif request.POST.get('remove'):
                 titles = request.POST.getlist('titles[]')
                 for title_id in titles:
                     Record.objects.get(pk=int(title_id)).delete()
                 return JsonResponse({'success': True})
-            data = []
-            # getting the datatables data
-            for record in Record.objects.all():
+            # filtering records from an ajax request
+            elif request.POST.get('is_filtered') == 'True':
+                year_accomplished_filter = request.POST.get('year_accomplished')
+                classification_filter = request.POST.get('classification')
+                psced_classification_filter = request.POST.get('psced_classification')
+                publication_filter = request.POST.get('publication')
+                if year_accomplished_filter != '':
+                    records = records.filter(year_accomplished=year_accomplished_filter)
+                if classification_filter != '':
+                    records = records.filter(classification=classification_filter)
+                if psced_classification_filter != '':
+                    records = records.filter(psced_classification=psced_classification_filter)
+                if publication_filter != '':
+                    publications = Publication.objects.filter(name=publication_filter)
+                    if len(publications) > 0:
+                        records = records.filter(publication=publications.first())
+                    else:
+                        records = []
+            # setting datatable records
+            for record in records:
                 data.append([
-                    '<div class="checkbox"><label>'
-                    '<input class="title-checkbox" name="title-checkbox" type="checkbox" value="' + str(
-                        record.pk) + '">'
-                                     '<a href="/records/view/' + str(
-                        record.pk) + '">' + record.title + '</a></label></div>',
+                    record.pk,
+                    '<a href="/records/view/' + str(
+                    record.pk) + '">' + record.title + '</a>',
                     record.year_accomplished,
                     record.classification.name,
                     record.psced_classification.name
                 ])
             return JsonResponse({"data": data})
+        else:
+            # if filter save button is clicked
+            if request.POST.get('is_filtered') == 'true':
+                # code if checkbox for year accomplished is clicked
+                filters = {'is_filtered': False}
+                if request.POST.get('year_cb', 'off') == 'on':
+                    filters['year_accomplished'] = request.POST.get('year_accomplished')
+                    filters['is_filtered'] = True
+                if request.POST.get('classification') != '':
+                    filters['classification'] = request.POST.get('classification')
+                    filters['is_filtered'] = True
+                if request.POST.get('psced_classification') != '':
+                    filters['psced_classification'] = request.POST.get('psced_classification')
+                    filters['is_filtered'] = True
+                if request.POST.get('publication_cb', 'off') == 'on':
+                    filters['publication'] = request.POST.get('publication')
+                    filters['is_filtered'] = True
+                context = {
+                    'records': Record.objects.all(),
+                    'record_form': forms.RecordForm(),
+                    'filters': filters,
+                }
+                return render(request, self.name, context)
 
 
 class ViewRecord(View):
@@ -282,3 +335,13 @@ class ParseExcel(View):
             request.session['import_message'] = 'failed'
             print('DataError/ValidationError')
         return redirect('records-index')
+
+
+def download_format(request):
+    fl_path = '/media'
+    filename = 'data.xlsx'
+    fl = open('media/data.xlsx', 'rb')
+    mime_type, _ = mimetypes.guess_type(fl_path)
+    response = HttpResponse(fl, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response

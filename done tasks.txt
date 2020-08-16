@@ -1,9 +1,17 @@
+>>table records
+-initial order is by date desc order
+-multiple filters is allowed
+-filter with unchecked boxes will not be filtered
+-filter values with no match will return an empty datatable
+-checked filter but empty box will not filter anything
+-saving filter and reopening the filter modal will show the previously saved filters
+-current working filters: year, classification, psced classification, publication name
+
 >>saving record
 -will give an error if the file being saved has the same info for the title, year, class and psced
 -will redirect to the records home after saving
 
 >>removing records
--can only remove checked research title which is shown on the same page in the table
 -clicking remove when there's no title checked will result to nothing
 -can remove multiple records at once and give a message that you have successfully removed the rows
 
