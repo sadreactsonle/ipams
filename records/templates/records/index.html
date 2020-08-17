@@ -13,7 +13,8 @@
 		var recordsTbl='a';
 		var filters = {
 			"is_filtered": "{{ filters.is_filtered }}",
-			"year_accomplished": "{{ filters.year_accomplished }}",
+			"year_from": "{{ filters.year_from }}",
+			"year_to": "{{ filters.year_to }}",
 			"classification": "{{ filters.classification }}",
 			"psced_classification": "{{ filters.psced_classification }}",
 			"publication": "{{ filters.publication }}"
@@ -105,129 +106,132 @@
 			}
 		});
 //---------------------------------Graphs---------------------------------------------
+		function initGraphs(){
+			var appliedVsBasic;
+			var noOfClassifications;
+			var recordsPerYear;
+			var classificationPerYear;
+			$.ajax({
+			    "headers": { "X-CSRFToken": '{{ csrf_token }}' },
+			    "url": "{% url 'records-index' %}",
+			    "type": "post",
+			    "data": {"graphs": true},
+			    "success": function(response){
+			//-------------------------applied vs. basic------------------------------------
+			    	data = [response.basic, response.applied];
+			    	appliedVsBasic = new Chart(document.getElementById('appliedVsBasic').getContext('2d'),
+					{
+					    type: 'pie',
+					    data: {
+					        labels: ['Applied', 'Basic'],
+					        datasets: [{
+					            data: data,
+					            backgroundColor: [
+					                'rgba(255, 99, 132, 0.2)',
+					                'rgba(54, 162, 235, 0.2)',
+					            ],
+					            borderColor: [
+					                'rgba(255, 99, 132, 1)',
+					                'rgba(54, 162, 235, 1)',
+					            ],
+					            borderWidth: 1
+					        }]
+					    },
+					    options: {
+					    	title: {
+					    	  display: true,
+					    	  text: 'Applied vs Basic'
+					    	},
 
-		$.ajax({
-		    "headers": { "X-CSRFToken": '{{ csrf_token }}' },
-		    "url": "{% url 'records-index' %}",
-		    "type": "post",
-		    "data": {"graphs": true},
-		    "success": function(response){
-		//-------------------------applied vs. basic------------------------------------
-				var ctx = document.getElementById('appliedVsBasic').getContext('2d');
-		    	data = [response.basic, response.applied];
-				var settings = {
-				    type: 'bar',
-				    data: {
-				        labels: ['Applied', 'Basic'],
-				        datasets: [{
-				            data: data,
-				            backgroundColor: [
-				                'rgba(255, 99, 132, 0.2)',
-				                'rgba(54, 162, 235, 0.2)',
-				            ],
-				            borderColor: [
-				                'rgba(255, 99, 132, 1)',
-				                'rgba(54, 162, 235, 1)',
-				            ],
-				            borderWidth: 1
-				        }]
-				    },
-				    options: {
-				    	title: {
-				    	  display: true,
-				    	  text: 'Applied vs Basic'
-				    	},
-				        scales: {
-				            yAxes: [{
-				                ticks: {
-				                    beginAtZero: true
-				                }
-				            }]
-				        },
-				        legend: {
-				        	display: false
-				        }
-				    }
-				};
-		    	settings.data.data = data;
-				var appliedVsBasic = new Chart(ctx, settings);
-		//------------------------------------No. of Classification-------------------------------------
-				var psced_names = [];
-				var psced_count = [];
-				psced = response.psced_count;
-				for( var i=0; i<response.psced_count.length; i++ ){
-					psced_names[i] = psced[i]['name'];
-					psced_count[i] = psced[i]['count'];
-				}
-				new Chart(document.getElementById("noOfClassifications"), {
-				    type: 'horizontalBar',
-				    data: {
-				      labels: psced_names,
-				      datasets: [{
-				        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850",
-				        	"#a88132","#92a832","#34a832","#32a88c","#327da8",
-				        	"#3a32a8","#7b32a8","#a8327f","#e3e08f","#8fe3bd",
-				        	"#fc8c03","#8cfffb","#b48cff","#8584a1","#1f4d3e"],
-				        data: psced_count
-				      }]
-				    },
-				    options: {
-				      title: {
-				        display: true,
-				        text: 'Number of Classifications'
-				      },
-				      legend: {
-		    		    display: false
-		    		  }
-				    }
-				});
-		    },
-		    "error": function(data){
-		    	alert("error");
-		    }
-		});
+					        legend: {
+					        	display: true
+					        }
+					    }
+					});
+			//------------------------------------No. of Classification-------------------------------------
+					var psced_names = [];
+					var psced_count = [];
+					psced = response.psced_count;
+					for( var i=0; i<response.psced_count.length; i++ ){
+						psced_names[i] = psced[i]['name'];
+						psced_count[i] = psced[i]['count'];
+					}
+					noOfClassifications = new Chart(document.getElementById('noOfClassifications').getContext('2d'), {
+					    type: 'horizontalBar',
+					    data: {
+					      labels: psced_names,
+					      datasets: [{
+					        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850",
+					        	"#a88132","#92a832","#34a832","#32a88c","#327da8",
+					        	"#3a32a8","#7b32a8","#a8327f","#e3e08f","#8fe3bd",
+					        	"#fc8c03","#8cfffb","#b48cff","#8584a1","#1f4d3e"],
+					        data: psced_count
+					      }]
+					    },
+					    options: {
+					      title: {
+					        display: true,
+					        text: 'Number of Classifications'
+					      },
+					      legend: {
+			    		    display: false
+			    		  }
+					    }
+					});
+			    },
+			    "error": function(data){
+			    	alert("error");
+			    }
+			});
+			//------------------------------------Records Per Year-------------------------------------
+			recordsPerYear = new Chart(document.getElementById("recordsPerYear"), {
+			  type: 'line',
+			  data: {
+			    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+			    datasets: [{
+			        data: [86,114,106,106,107,111,133,221,783,2478],
+			        label: "Records",
+			        borderColor: "#3e95cd",
+			        fill: false
+			      }
+			    ]
+			  },
+			  options: {
+			    title: {
+			      display: true,
+			      text: 'Records per Year'
+			    },
+			    legend: {
+			      display: false
+			    }
+			  }
+			});
+			//--------------------------------Classification per year--------------------------------------
+			classificationPerYear = new Chart(document.getElementById("classificationPerYear"), {
+			    type: 'horizontalBar',
+			    data: {
+			      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+			      datasets: [
+			        {
+			          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+			          data: [2478,5267,734,784,433]
+			        }
+			      ]
+			    },
+			    options: {
+			      legend: { display: false },
+			      title: {
+			        display: true,
+			        text: 'Number of Classifications Per Year'
+			      }
+			    }
+			});
 
-		new Chart(document.getElementById("recordsPerYear"), {
-		  type: 'line',
-		  data: {
-		    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-		    datasets: [{
-		        data: [86,114,106,106,107,111,133,221,783,2478],
-		        label: "Records",
-		        borderColor: "#3e95cd",
-		        fill: false
-		      }
-		    ]
-		  },
-		  options: {
-		    title: {
-		      display: true,
-		      text: 'Records per Year'
-		    },
-		    legend: {
-		      display: false
-		    }
-		  }
-		});
-
-		new Chart(document.getElementById("classificationPerYear"), {
-		    type: 'horizontalBar',
-		    data: {
-		      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-		      datasets: [
-		        {
-		          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-		          data: [2478,5267,734,784,433]
-		        }
-		      ]
-		    },
-		    options: {
-		      legend: { display: false },
-		      title: {
-		        display: true,
-		        text: 'Number of Classifications Per Year'
-		      }
-		    }
+		}
+		initGraphs();
+		//-------------------------refresh graph----------------------------------------
+		$("#btn-graph-refresh").on("click", function(){
+			initGraphs();
 		});
 
 //-------------------------------error messages---------------------------------------
@@ -256,23 +260,25 @@
 
 		{% include 'records/home_navbar.html' %}
 
-		<div class="tab-content" id="nav-tabContent">
-			<div class="tabheaher">&nbsp;</div>
-			<div class="tab-pane fade show active" id="nav-home-records" role="tabpanel">
-				<section id="home-records">
-					<div class="row" style="margin-top:30px">
-						<div class="col-12">
+		<div class="tab-content main-container" id="nav-tabContent">
+			<div class="main-header"></div>
+			<div class="tab-pane fade-in show active " id="nav-home-records" role="tabpanel">
+				<section id="home-records" class="main-content">
+					<div class="row">
+						<div class="col-6">
 							<h1>RECORDS</h1>
 						</div>
 					</div>
-					<div class="row" style="margin-bottom:30px">
-						<div class="col-12">
-							<a href="{% url 'records-add' %}" class="btn btn-primary">ADD</a>
-							<button type="button" id="btn-remove" class="btn btn-danger">REMOVE</button>
-							<button type="button" class="btn btn-success" data-toggle="modal" data-target="#filter-modal">FILTER</button>
+					<div class="row">
+						<div class="col-md-6 d-flex">
+							<div>
+								<a href="{% url 'records-add' %}" class="btn btn-primary" style="margin-bottom:10px"><i class="fa fa-plus fa-md"></i> ADD</a>
+								<button type="button" id="btn-remove" class="btn btn-danger" style="margin-bottom:10px"><i class="fa fa-trash fa-md"></i> REMOVE</button>
+								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#filter-modal" style="margin-bottom:10px"><i class="fa fa-filter fa-md"></i> FILTER</button>
+							</div>
 						</div>
 					</div>
-					<div class="row" style="margin-bottom:30px">
+					<div class="row">
 						<div class="col-12">
 							<table id="tbl-records" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
 						        <thead>
@@ -292,35 +298,55 @@
 				</section>
 			</div>
 			<div class="tab-pane fade" id="nav-home-graphs" role="tabpanel">
-				<section id="home-graphs">
+				<section id="home-graphs" class="main-content">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-6">
 							<h1>GRAPHS</h1>
 						</div>
+						<div class="col-6 d-flex justify-content-end">
+							<button id="btn-graph-refresh" class="btn btn-primary">refresh</button>
+						</div>
 					</div>
 					<div class="row">
-						<div class="col-6">
-							<canvas id="appliedVsBasic"></canvas>
-
+						<!-- Nav pills -->
+						<div class="col-3">
+							<ul class="nav flex-column nav-pills">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="pill" href="#home">Applied vs Basic</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="pill" href="#menu1">Records per Year</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="pill" href="#menu2">Classifications per Year</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="pill" href="#menu3">No. of Classifications</a>
+								</li>
+							</ul>
 						</div>
-						<div class="col-6">
-							<canvas id="recordsPerYear"></canvas>
-						</div>
-					</div>
-					<div class="row" style="margin-top: 30px">
-						<div class="offset-3 col-6">
-							<canvas id="classificationPerYear"></canvas>
-						</div>
-					</div>
-					<div class="row" style="margin-top:30px">
-						<div class="col-12">
-							<canvas id="noOfClassifications"></canvas>
+						<!-- Tab panes -->
+						<div class="col-9">
+							<div class="tab-content">
+								<div class="tab-pane container active" id="home">
+									<canvas id="appliedVsBasic"></canvas>
+								</div>
+								<div class="tab-pane container fade" id="menu1">
+									<canvas id="recordsPerYear"></canvas>
+								</div>
+								<div class="tab-pane container fade" id="menu2">
+									<canvas id="classificationPerYear"></canvas>
+								</div>
+								<div class="tab-pane container fade" id="menu3">
+									<canvas id="noOfClassifications"></canvas>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>
 			</div>
 			<div class="tab-pane fade" id="nav-home-upload" role="tabpanel">
-				<section id="home-upload">
+				<section id="home-upload" class="main-content">
 					<div class="row">
 						<div class="col-lg-8">
 							<h1>How to migrate data from spreadsheet?</h1>
@@ -329,7 +355,7 @@
 								<li>When adding a new entry to a section, simply duplicate the record row and replace the existing
 section with the new entry.</li>
 								<li>The migration stops when they read a merged cell that contains END OF RECORDS.</li>
-								<li>After the format is thouroughly followed, Press GENERATE to add the records.</li>
+								<li>After the format is thoroughly followed, Press GENERATE to add the records.</li>
 							</ol>
 						</div>
 						<div class="col-lg-4">
@@ -341,7 +367,7 @@ section with the new entry.</li>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-12" style="margin-top:15px">
+									<div class="col-12 d-flex justify-content-end" style="margin-top:15px">
 										<button id="btn-import" type="button" class="btn btn-success">GENERATE</button>
 									</div>
 								</div>
@@ -353,7 +379,7 @@ section with the new entry.</li>
 		</div>
 	</div>
 
-	<!-- Modal -->
+	<!-- --------------------------------Modal--------------------------------------------- -->
 	<div class="modal fade" id="filter-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -370,14 +396,17 @@ section with the new entry.</li>
 					<div class="row">
 						<div class="col-lg-5">
 							<div class="form-check">
-							  <input class="form-check-input" type="checkbox" id="year_cb" name="year_cb" {% if filters.year_accomplished is not None %} checked {% endif %}>
+							  <input class="form-check-input" type="checkbox" id="year_cb" name="year_cb" {% if filters.year_from is not None and filters.year_to is not None %} checked {% endif %}>
 							  <label class="form-check-label" for="year_cb">
 							    Year
 							  </label>
 							</div>
 						</div>
-						<div class="col-lg-7">
-							<input class="form-control" name="year_accomplished" value="{{ filters.year_accomplished }}">
+						<div class="col-lg-3">
+							<input class="form-control" placeholder="from" name="year_from" value="{{ filters.year_from }}">
+						</div>
+						<div class="col-lg-3">
+							<input class="form-control" placeholder="to" name="year_to" value="{{ filters.year_to }}">
 						</div>
 					</div>
 					<div class="row">

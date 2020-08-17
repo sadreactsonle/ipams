@@ -57,12 +57,14 @@ class Home(View):
                 return JsonResponse({'success': True})
             # filtering records from an ajax request
             elif request.POST.get('is_filtered') == 'True':
-                year_accomplished_filter = request.POST.get('year_accomplished')
+                year_from_filter = request.POST.get('year_from', '0')
+                year_to_filter = request.POST.get('year_to', '0')
                 classification_filter = request.POST.get('classification')
                 psced_classification_filter = request.POST.get('psced_classification')
                 publication_filter = request.POST.get('publication')
-                if year_accomplished_filter != '':
-                    records = records.filter(year_accomplished=year_accomplished_filter)
+                if year_from_filter != '' or year_to_filter != '':
+                    records = records.filter(year_accomplished__gte=year_from_filter)\
+                        .filter(year_accomplished__lte=year_to_filter)
                 if classification_filter != '':
                     records = records.filter(classification=classification_filter)
                 if psced_classification_filter != '':
@@ -90,7 +92,8 @@ class Home(View):
                 # code if checkbox for year accomplished is clicked
                 filters = {'is_filtered': False}
                 if request.POST.get('year_cb', 'off') == 'on':
-                    filters['year_accomplished'] = request.POST.get('year_accomplished')
+                    filters['year_from'] = request.POST.get('year_from')
+                    filters['year_to'] = request.POST.get('year_to')
                     filters['is_filtered'] = True
                 if request.POST.get('classification') != '':
                     filters['classification'] = request.POST.get('classification')

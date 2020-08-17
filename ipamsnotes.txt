@@ -37,9 +37,14 @@ NEXT STEP:
 ************
 
 questions:
+are the stored records allows records in progress?
 can adviser remove the uploaded file? and will she be able to upload herself?
 if a student registration needs to be approved by the adviser, how to register as an adviser?
-author needs an account before they can be inputted as an author to a record
+author(student) needs an account before they can be inputted as an author to a record
 -suggestion is it ok if it is designed as input tags
 collaborator filter refering to industry or institution?
 graphs - how many columns?
+-is it ok if I create a submenu for graphs
+
+proposals:
+for authors, 
