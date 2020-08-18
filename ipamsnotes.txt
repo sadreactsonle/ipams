@@ -36,8 +36,11 @@ NEXT STEP:
 2. discussed sa rdco and ktto para ma finalize ang scope
 ************
 
+guest, registered, researcher
+
 questions:
 are the stored records allows records in progress?
+
 can adviser remove the uploaded file? and will she be able to upload herself?
 if a student registration needs to be approved by the adviser, how to register as an adviser?
 author(student) needs an account before they can be inputted as an author to a record

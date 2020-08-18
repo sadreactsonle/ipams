@@ -66,39 +66,45 @@
         {% csrf_token %}
         {% include 'records/record_navbar.html' %}
         <div class="tab-content main-container" id="nav-tabContent">
-            <div class="main-header"></div>
+
            <!--------------------------------------TITLE AND ABSTRACT---------------------------------------------------->
             <div class="tab-pane fade show active" id="nav-title-and-abstract" role="tabpanel">
+                <div class="main-header title-and-abstract"></div>
                 <section id="title-and-abstract" class="main-content">
                     {% include 'records/view_record/title_and_abstract.html' %}
                 </section>
             </div>
            <!------------------------------------AUTHORS AND CATEGORIES---------------------------------------------------->
             <div class="tab-pane fade" id="nav-authors-and-categories" role="tabpanel">
+                <div class="main-header author"></div>
                 <section id="authors-and-categories" class="main-content">
                     {% include 'records/view_record/authors_and_categories.html' %}
                 </section>
             </div>
            <!------------------------------------CONFERENCE---------------------------------------------------->
             <div class="tab-pane fade" id="nav-conference" role="tabpanel">
+                <div class="main-header conference"></div>
                 <section id="conference" class="main-content">
                     {% include 'records/view_record/conference.html' %}
                 </section>
             </div>
            <!------------------------------------PUBLICATION---------------------------------------------------->
             <div class="tab-pane fade" id="nav-publication" role="tabpanel">
+                <div class="main-header publication"></div>
                 <section id="publication" class="main-content">
                     {% include 'records/view_record/publication.html' %}
                 </section>
             </div>
            <!------------------------------------BUDGET---------------------------------------------------->
             <div class="tab-pane fade" id="nav-budget" role="tabpanel">
+                <div class="main-header budget"></div>
                 <section id="budget" class="main-content">
                     {% include 'records/view_record/budget.html' %}
                 </section>
             </div>
            <!------------------------------------COLLABORATION---------------------------------------------------->
             <div class="tab-pane fade" id="nav-collaboration" role="tabpanel">
+                <div class="main-header collaboration"></div>
                 <section id="collaboration" class="main-content">
                     {% include 'records/view_record/collaboration.html' %}
                 </section>

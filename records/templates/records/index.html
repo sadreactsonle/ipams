@@ -10,7 +10,7 @@
 {% block footer %}
 	<script>
 //-----------------------initializing datatable---------------------------------------------
-		var recordsTbl='a';
+		var recordsTbl;
 		var filters = {
 			"is_filtered": "{{ filters.is_filtered }}",
 			"year_from": "{{ filters.year_from }}",
@@ -43,7 +43,9 @@
 		    });
 		    $("#id_classification").val("{{ filters.classification }}");
 		    $("#id_psced_classification").val("{{ filters.psced_classification }}");
+
 		} );
+
 //------------------------importing spreadsheet----------------------------------------------
 		$("#btn-import").on("click", function(){
 			if($("#file-import").get(0).files.length>0){
