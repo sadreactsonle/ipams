@@ -47,7 +47,7 @@ author(student) needs an account before they can be inputted as an author to a r
 -suggestion is it ok if it is designed as input tags
 collaborator filter refering to industry or institution?
 graphs - how many columns?
--is it ok if I create a submenu for graphs
+- are the psced classifications fixed? or should it be dynamic
 
 proposals:
 for authors, 
