@@ -49,7 +49,7 @@
 
         $('.nav-copy').on('shown.bs.tab', function (e) {
           var target = $(e.target).attr("href")
-          $("#classification-nav").append($(e.target));
+          //$("#classification-nav").append($(e.target));
         });
 
         function classificationClick(id, copy=false){
@@ -58,8 +58,9 @@
             }
             else{
                 $(".nav-copy").removeClass("active");
+                $(".tab-pane").removeClass("active");
                 $("#nav-item-c"+id).addClass("active");
-                $("#classification-nav").append($("#nav-item-c"+id));
+                //$("#classification-nav").append($("#nav-item-c"+id));
             }
         }
 	</script>
@@ -83,6 +84,8 @@
         <div class="tab-content main-container" id="nav-tabContent">
 
            <!--------------------------------------TITLE AND ABSTRACT---------------------------------------------------->
+
+            <a class="nav-item nav-link nav-main title-and-abstract active col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c1" onclick="classificationClick('1', true)">Title and Abstract</a>
             <div class="tab-pane fade show active" id="nav-title-and-abstract" role="tabpanel">
                 <div class="main-header title-and-abstract"></div>
                 <section id="title-and-abstract" class="main-content">
@@ -90,6 +93,8 @@
                 </section>
             </div>
            <!------------------------------------AUTHORS AND CATEGORIES---------------------------------------------------->
+
+            <a class="nav-item nav-link nav-main author col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c2" onclick="classificationClick('2',true)">Authors and Categories</a>
             <div class="tab-pane fade" id="nav-authors-and-categories" role="tabpanel">
                 <div class="main-header author"></div>
                 <section id="authors-and-categories" class="main-content">
@@ -97,6 +102,8 @@
                 </section>
             </div>
            <!------------------------------------CONFERENCE---------------------------------------------------->
+
+            <a class="nav-item nav-link nav-main conference col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c3" onclick="classificationClick('3',true)">Conference</a>
             <div class="tab-pane fade" id="nav-conference" role="tabpanel">
                 <div class="main-header conference"></div>
                 <section id="conference" class="main-content">
@@ -104,13 +111,18 @@
                 </section>
             </div>
            <!------------------------------------PUBLICATION---------------------------------------------------->
+
+            <a class="nav-item nav-link nav-main publication col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c4" onclick="classificationClick('4',true)">Publication</a>
             <div class="tab-pane fade" id="nav-publication" role="tabpanel">
                 <div class="main-header publication"></div>
                 <section id="publication" class="main-content">
                     {% include 'records/view_record/publication.html' %}
                 </section>
             </div>
+
            <!------------------------------------BUDGET---------------------------------------------------->
+
+            <a class="nav-item nav-link nav-main budget col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c5" onclick="classificationClick('5',true)">Budget</a>
             <div class="tab-pane fade" id="nav-budget" role="tabpanel">
                 <div class="main-header budget"></div>
                 <section id="budget" class="main-content">
@@ -118,6 +130,8 @@
                 </section>
             </div>
            <!------------------------------------COLLABORATION---------------------------------------------------->
+
+            <a class="nav-item nav-link nav-main collaboration col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c6" onclick="classificationClick('6',true)">Collaboration</a>
             <div class="tab-pane fade" id="nav-collaboration" role="tabpanel">
                 <div class="main-header collaboration"></div>
                 <section id="collaboration" class="main-content">
