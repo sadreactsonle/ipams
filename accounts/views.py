@@ -55,6 +55,8 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
+                if request.GET.get('next'):
+                    return redirect(request.GET.get('next'))
                 return redirect('records-index')
         form = forms.LoginForm()
         return render(request, self.name, {'error_message': 'Invalid Username/Password',

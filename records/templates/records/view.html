@@ -47,10 +47,21 @@
 			$("#collaboration-rows").append('<div class="row" id="collaboration-'+collaborationCount+'"><div class="col-4"><input type="text" name="industries[]" class="form-control" placeholder="Other Industry"></div><div class="col-4"><input type="text" name="institutions[]" class="form-control" placeholder="Institution"></div><div class="col-2"><select name="collaboration_types[]" class="form-control"> {% for collaboration_type in collaboration_types %} <option value="{{ collaboration_type.pk }}">{{ collaboration_type.name }}</option> {% endfor %} </select></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeCollaboration('+collaborationCount+')">REMOVE</button></div></div>');
 		});
 
-        /*$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('.nav-copy').on('shown.bs.tab', function (e) {
           var target = $(e.target).attr("href")
           $("#classification-nav").append($(e.target));
-        });*/
+        });
+
+        function classificationClick(id, copy=false){
+            if(copy){
+                $("#nav-item-"+id).click();
+            }
+            else{
+                $(".nav-copy").removeClass("active");
+                $("#nav-item-c"+id).addClass("active");
+                $("#classification-nav").append($("#nav-item-c"+id));
+            }
+        }
 	</script>
 {% endblock %}
 
@@ -113,10 +124,11 @@
                     {% include 'records/view_record/collaboration.html' %}
                 </section>
             </div>
-            <div class="row" style="margin-bottom:30px">
-                <div class="col-12 d-flex justify-content-end">
-                    <a type="button" href="{% url 'records-index' %}" class="btn btn-warning" style="margin-top: 30px" id="btn-back">Back to Records</a>
-                </div>
+
+        </div>
+        <div class="row" style="margin-bottom:30px">
+            <div class="col-12 d-flex justify-content-end">
+                <a type="button" href="{% url 'records-index' %}" class="btn btn-warning" style="margin-top: 30px" id="btn-back">Back to Records</a>
             </div>
         </div>
     </form>
