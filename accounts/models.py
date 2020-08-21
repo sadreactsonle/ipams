@@ -29,7 +29,10 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
 	username = models.CharField(max_length=30, unique=True)
-	email = models.CharField(max_length=30, unique=True)
+	first_name = models.CharField(max_length=50, null=True, blank=True)
+	last_name = models.CharField(max_length=50, null=True, blank=True)
+	email = models.CharField(max_length=30, unique=True, null=True, blank=True)
+	contact_no = models.CharField(max_length=20, null=True, blank=True)
 	role = models.CharField(max_length=20)
 	is_admin = models.BooleanField(default=False)
 	is_staff = models.BooleanField(default=False)

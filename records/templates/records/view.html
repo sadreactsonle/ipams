@@ -47,6 +47,10 @@
 			$("#collaboration-rows").append('<div class="row" id="collaboration-'+collaborationCount+'"><div class="col-4"><input type="text" name="industries[]" class="form-control" placeholder="Other Industry"></div><div class="col-4"><input type="text" name="institutions[]" class="form-control" placeholder="Institution"></div><div class="col-2"><select name="collaboration_types[]" class="form-control"> {% for collaboration_type in collaboration_types %} <option value="{{ collaboration_type.pk }}">{{ collaboration_type.name }}</option> {% endfor %} </select></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeCollaboration('+collaborationCount+')">REMOVE</button></div></div>');
 		});
 
+        /*$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          var target = $(e.target).attr("href")
+          $("#classification-nav").append($(e.target));
+        });*/
 	</script>
 {% endblock %}
 
