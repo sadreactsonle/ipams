@@ -59,7 +59,7 @@
 
                 $("#nav-item-"+id).addClass("active");
                 $("#nav-item-c"+id).addClass("active");
-                $("#nav-item-c"+id).next().addClass("active").addClass("show");
+                $("#nav-item-c"+id).next().addClass("active").addClass("show").addClass(" animate__animated animate__fadeIn animate__faster");
             }
         }
 	</script>
@@ -85,7 +85,7 @@
            <!--------------------------------------TITLE AND ABSTRACT---------------------------------------------------->
 
             <a class="nav-item nav-link nav-main title-and-abstract active col-12 d-lg-none nav-copy" data-toggle="tab" href="#" id="nav-item-c1" onclick="classificationClick('1', true)">Title and Abstract</a>
-            <div class="tab-pane fade show active" id="nav-title-and-abstract" role="tabpanel">
+            <div class="tab-pane fade show active" id="nav-title-and-abstract" role="tabpanel" style="background-color:white">
                 <div class="main-header title-and-abstract"></div>
                 <section id="title-and-abstract" class="main-content">
                     {% include 'records/view_record/title_and_abstract.html' %}
