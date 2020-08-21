@@ -47,20 +47,19 @@
 			$("#collaboration-rows").append('<div class="row" id="collaboration-'+collaborationCount+'"><div class="col-4"><input type="text" name="industries[]" class="form-control" placeholder="Other Industry"></div><div class="col-4"><input type="text" name="institutions[]" class="form-control" placeholder="Institution"></div><div class="col-2"><select name="collaboration_types[]" class="form-control"> {% for collaboration_type in collaboration_types %} <option value="{{ collaboration_type.pk }}">{{ collaboration_type.name }}</option> {% endfor %} </select></div><div class="col-2"><button class="btn btn-danger" type="button" onclick="removeCollaboration('+collaborationCount+')">REMOVE</button></div></div>');
 		});
 
-        $('.nav-copy').on('shown.bs.tab', function (e) {
-          var target = $(e.target).attr("href")
-          //$("#classification-nav").append($(e.target));
-        });
-
         function classificationClick(id, copy=false){
             if(copy){
                 $("#nav-item-"+id).click();
+                $("#nav-item-c"+id).addClass("active");
             }
             else{
-                $(".nav-copy").removeClass("active");
-                $(".tab-pane").removeClass("active");
+                $(".nav-copy").removeClass("active").removeClass("show");
+                $(".tab-pane").removeClass("active").removeClass("show");
+                $(".nav-item").removeClass("active");
+
+                $("#nav-item-"+id).addClass("active");
                 $("#nav-item-c"+id).addClass("active");
-                //$("#classification-nav").append($("#nav-item-c"+id));
+                $("#nav-item-c"+id).next().addClass("active").addClass("show");
             }
         }
 	</script>
