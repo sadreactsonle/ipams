@@ -180,52 +180,65 @@
 			    		  }
 					    }
 					});
+
+			//------------------------------------Records Per Year-------------------------------------
+					var recordsYear = [];
+					var recordsCount = [];
+					for(var i=0; i<response.records_per_year_count.length; i++){
+						recordsYear[i] = response.records_per_year_count[i]['year'];
+						recordsCount[i] = response.records_per_year_count[i]['count'];
+					}
+					recordsPerYear = new Chart(document.getElementById("recordsPerYear"), {
+					  type: 'line',
+					  data: {
+					    labels: recordsYear,
+					    datasets: [{
+					        data: recordsCount,
+					        label: "Records",
+					        borderColor: "#3e95cd",
+					        fill: false
+					      }
+					    ]
+					  },
+					  options: {
+					    title: {
+					      display: true,
+					      text: 'Records per Year'
+					    },
+					    legend: {
+					      display: false
+					    }
+					  }
+					})
+			//--------------------------------Classification per year--------------------------------------
+					pscedYear = [];
+					pscedCount = [];
+					for(var i=0; i<response.psced_per_year_count.length;i++){
+						pscedYear[i] = response.psced_per_year_count[i]['year'];
+						pscedCount[i] = response.psced_per_year_count[i]['psced_count'];
+					}
+					classificationPerYear = new Chart(document.getElementById("classificationPerYear"), {
+					    type: 'horizontalBar',
+					    data: {
+					      labels: pscedYear,
+					      datasets: [
+					        {
+					          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+					          data: pscedCount
+					        }
+					      ]
+					    },
+					    options: {
+					      legend: { display: false },
+					      title: {
+					        display: true,
+					        text: 'Number of Classifications Per Year'
+					      }
+					    }
+					});
 			    },
 			    "error": function(data){
 			    	alert("error");
-			    }
-			});
-			//------------------------------------Records Per Year-------------------------------------
-			recordsPerYear = new Chart(document.getElementById("recordsPerYear"), {
-			  type: 'line',
-			  data: {
-			    labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-			    datasets: [{
-			        data: [86,114,106,106,107,111,133,221,783,2478],
-			        label: "Records",
-			        borderColor: "#3e95cd",
-			        fill: false
-			      }
-			    ]
-			  },
-			  options: {
-			    title: {
-			      display: true,
-			      text: 'Records per Year'
-			    },
-			    legend: {
-			      display: false
-			    }
-			  }
-			});
-			//--------------------------------Classification per year--------------------------------------
-			classificationPerYear = new Chart(document.getElementById("classificationPerYear"), {
-			    type: 'horizontalBar',
-			    data: {
-			      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-			      datasets: [
-			        {
-			          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-			          data: [2478,5267,734,784,433]
-			        }
-			      ]
-			    },
-			    options: {
-			      legend: { display: false },
-			      title: {
-			        display: true,
-			        text: 'Number of Classifications Per Year'
-			      }
 			    }
 			});
 
@@ -307,13 +320,13 @@
 						</div>
 						<div class="col-6 d-flex justify-content-end">
 							<div>
-								<a id="btn-graph-refresh" class="btn btn-secondary btn-yellow-solid"><i class="fa fa-refresh fa-md"></i></a>
+								<a id="btn-graph-refresh" class="btn btn-secondary btn-yellow-solid"><i class="fa fa-sync fa-md"></i></a>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<!-- Nav pills -->
-						<div class="col-3">
+						<div class="col-sm-12 col-lg-3">
 							<ul class="nav flex-column nav-pills">
 								<li class="nav-item">
 									<a class="nav-link active" data-toggle="pill" href="#home">Applied vs Basic</a>
@@ -330,7 +343,7 @@
 							</ul>
 						</div>
 						<!-- Tab panes -->
-						<div class="col-9">
+						<div class="col-sm-12 col-lg-9">
 							<div class="tab-content">
 								<div class="tab-pane container active" id="home">
 									<canvas id="appliedVsBasic"></canvas>

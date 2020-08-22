@@ -3,6 +3,7 @@ import mimetypes
 
 from django.core.exceptions import ValidationError
 from django.db import DataError
+from django.db.models import Count
 from django.forms import modelformset_factory
 from django.shortcuts import render
 from django.views import View
@@ -43,12 +44,21 @@ class Home(View):
                 basic_count = Record.objects.filter(classification=1).count()
                 applied_count = Record.objects.filter(classification=2).count()
                 psced_count = []
+                records_per_year_count = []
+                psced_per_year_count = []
                 psced_classifications = PSCEDClassification.objects.all()
+                records_per_year = Record.objects.values('year_accomplished').annotate(year_count=Count('year_accomplished')).order_by('year_accomplished')[:10]
+                psced_per_year = Record.objects.raw('SELECT id, year_accomplished, COUNT(year_accomplished) AS psced_count FROM (SELECT id, year_accomplished, psced_classification_id FROM records_record GROUP BY psced_classification_id) as tbl GROUP BY year_accomplished ORDER BY year_accomplished ASC LIMIT 10')
                 for psced in psced_classifications:
                     psced_count.append({'name': psced.name, 'count': Record.objects.filter(
                         psced_classification=PSCEDClassification.objects.get(pk=psced.id)).count()})
+                for record_per_year in records_per_year:
+                    records_per_year_count.append({'year': record_per_year['year_accomplished'], 'count': record_per_year['year_count']})
+                for psced_year in psced_per_year:
+                    psced_per_year_count.append({'year': psced_year.year_accomplished, 'psced_count': psced_year.psced_count})
                 return JsonResponse({'success': True, 'basic': basic_count, 'applied': applied_count,
-                                     'psced_count': psced_count})
+                                     'psced_count': psced_count, 'records_per_year_count': records_per_year_count,
+                                     'psced_per_year_count': psced_per_year_count})
             # removing records
             elif request.POST.get('remove'):
                 titles = request.POST.getlist('titles[]')
