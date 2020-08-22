@@ -48,7 +48,7 @@ class Home(View):
                 psced_per_year_count = []
                 psced_classifications = PSCEDClassification.objects.all()
                 records_per_year = Record.objects.values('year_accomplished').annotate(year_count=Count('year_accomplished')).order_by('year_accomplished')[:10]
-                psced_per_year = Record.objects.raw('SELECT id, year_accomplished, COUNT(year_accomplished) AS psced_count FROM (SELECT id, year_accomplished, psced_classification_id FROM records_record GROUP BY psced_classification_id) as tbl GROUP BY year_accomplished ORDER BY year_accomplished ASC LIMIT 10')
+                psced_per_year = Record.objects.raw('SELECT id, year_accomplished, COUNT(year_accomplished) AS psced_count FROM (SELECT id, year_accomplished, psced_classification_id FROM records_record GROUP BY psced_classification_id) as tbl GROUP BY year_accomplished ORDER BY year_accomplished DESC LIMIT 10')
                 for psced in psced_classifications:
                     psced_count.append({'name': psced.name, 'count': Record.objects.filter(
                         psced_classification=PSCEDClassification.objects.get(pk=psced.id)).count()})
