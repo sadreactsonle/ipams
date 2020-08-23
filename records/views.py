@@ -221,7 +221,8 @@ class Add(View):
             else:
                 error = {'title': 'Unable to save record', 'body': 'A record with the same record information already exists'}
                 error_messages.append(error)
-
+        else:
+            error_messages.append({'title': 'Unable to save record', 'body': 'Some fields contains invalid values while trying to save the record'})
         context = {
             'author_roles': self.author_roles,
             'conference_levels': self.conference_levels,
