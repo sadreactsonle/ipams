@@ -88,6 +88,7 @@ class Home(View):
             # setting datatable records
             for record in records:
                 data.append([
+                    '',
                     record.pk,
                     '<a href="/records/view/' + str(
                     record.pk) + '">' + record.title + '</a>',
