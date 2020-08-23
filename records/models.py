@@ -64,6 +64,7 @@ class Record(models.Model):
     abstract = models.TextField()
     classification = models.ForeignKey(Classification, on_delete=models.DO_NOTHING)
     psced_classification = models.ForeignKey(PSCEDClassification, on_delete=models.DO_NOTHING)
+    abstract_file = models.FileField(upload_to='abstract/', null=True, blank=True)
     abstract_filename = models.CharField(max_length=50, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 

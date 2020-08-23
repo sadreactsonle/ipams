@@ -173,17 +173,18 @@ class Add(View):
 
     def post(self, request):
         error_messages = []
-        record_form = forms.RecordForm(request.POST)
+        record_form = forms.RecordForm(request.POST, request.FILES)
         if record_form.is_valid():
             # upload file
-            record = None
-            if request.POST.get('upload-abstract', 'false') == 'true':
-                record = record_form.save(commit=False)
-                project = request.FILES['abstract']
-                record.abstract_filename = project.name
-                record.save()
-                fs = FileSystemStorage()
-                fs.save('abstract/' + str(record.pk) + '/' + project.name, project)
+            # record = None
+            record = record_form.save()
+            # if request.POST.get('upload-abstract', 'false') == 'true':
+            #     record = record_form.save(commit=False)
+            #     project = request.FILES['abstract']
+            #     record.abstract_filename = project.name
+            #     record.save()
+            #     fs = FileSystemStorage()
+            #     fs.save('abstract/' + str(record.pk) + '/' + project.name, project)
             if record is not None:
                 publication_form = forms.PublicationForm(request.POST)
                 if publication_form.is_valid():

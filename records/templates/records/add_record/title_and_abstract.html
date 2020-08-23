@@ -19,12 +19,18 @@
 		{{ record_form.abstract|as_crispy_field }}
 	</div>
 </div>
+
 <div class="row">
+	<div class="col-12">
+		{{ record_form.abstract_file|as_crispy_field }}
+	</div>
+</div>
+<!--<div class="row">
 	<div class="col-12">
 		<input type="file" name="abstract">
 		<input type="hidden" name="upload-abstract" value="true">
 	</div>
-</div>
+</div>-->
 <div class="row">
 	<div class="col-12 d-flex justify-content-end">
 		<button class="btn btn-next btn-yellow-solid" type="button">Next</button>
