@@ -44,9 +44,10 @@
         		    {
         		    	"targets": [0],
         		    	"orderable": false,
+        		    	"width": 20,
         		    	"className": 'select-checkbox',
-        		    	"targets": 0
-        		    }
+        		    	"targets": 0,
+        		    },
         		],
 		    });
 		    $("#id_classification").val("{{ filters.classification }}");
@@ -74,6 +75,7 @@
         		    },
         		    {
         		    	"targets": [0],
+        		    	"width": 20,
         		    	"orderable": false,
         		    	"className": 'select-checkbox',
         		    	"targets": 0
@@ -301,10 +303,24 @@
 			})
 		{% endif %}
 
-//adjust datatables header
+//--------------------------adjust datatables header--------------------------------
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
 	   $($.fn.dataTable.tables(true)).DataTable()
 	      .columns.adjust();
+	});
+
+//---------------------------select/deselect all checkbox---------------------------
+	$("#records-select-all").on( "click", function(e) {
+		recordsTbl.rows({ page: 'current' }).select();
+	});
+	$("#records-deselect-all").on( "click", function(e) {
+		recordsTbl.rows({ page: 'current' }).deselect();
+	});
+	$("#accounts-select-all").on( "click", function(e) {
+		accountsTbl.rows({ page: 'current' }).select();
+	});
+	$("#accounts-deselect-all").on( "click", function(e) {
+		accountsTbl.rows({ page: 'current' }).deselect();
 	});
 	</script>
 {% endblock %}
@@ -316,8 +332,8 @@
 		{% include 'records/home_navbar.html' %}
 
 		<div class="tab-content main-container" id="nav-tabContent">
-			<div class="main-header"></div>
 			<div class="tab-pane fade show active " id="nav-home-records" role="tabpanel">
+				<div class="main-header"></div>
 				<section id="home-records" class="main-content">
 					<div class="row">
 						<div class="col-6">
@@ -330,7 +346,14 @@
 								<a href="{% url 'records-add' %}" class="btn btn-primary" style="margin-bottom:10px"><i class="fa fa-plus fa-md"></i> ADD</a>
 								<button type="button" id="btn-remove" class="btn btn-danger" style="margin-bottom:10px"><i class="fa fa-trash fa-md"></i> REMOVE</button>
 								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#filter-modal" style="margin-bottom:10px"><i class="fa fa-filter fa-md"></i> FILTER</button>
+
 							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<button type="button" class="btn btn-secondary" id="records-select-all">SELECT ALL</button>
+							<button type="button" class="btn btn-secondary" id="records-deselect-all">DESELECT ALL</button>
 						</div>
 					</div>
 					<div class="row">
@@ -354,6 +377,7 @@
 				</section>
 			</div>
 			<div class="tab-pane fade" id="nav-home-graphs" role="tabpanel">
+				<div class="main-header"></div>
 				<section id="home-graphs" class="main-content">
 					<div class="row">
 						<div class="col-6">
@@ -404,10 +428,17 @@
 				</section>
 			</div>
 			<div class="tab-pane fade" id="nav-home-accounts" role="tabpanel">
+				<div class="main-header"></div>
 				<section id="home-accounts" class="main-content">
 					<div class="row">
 						<div class="col-6">
 							<h1>ACCOUNTS</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<button type="button" class="btn btn-secondary" id="accounts-select-all">SELECT ALL</button>
+							<button type="button" class="btn btn-secondary" id="accounts-deselect-all">DESELECT ALL</button>
 						</div>
 					</div>
 					<div class="row">
@@ -430,6 +461,7 @@
 				</section>
 			</div>
 			<div class="tab-pane fade" id="nav-home-upload" role="tabpanel">
+				<div class="main-header"></div>
 				<section id="home-upload" class="main-content">
 					<div class="row">
 						<div class="col-lg-8">
