@@ -94,7 +94,7 @@
 				<a href="{% url 'records-index' %}">Records</a> / Add
 			</div>
 		</div>
-		<form method="post" action="{% url 'records-add' %}" id="form-record">
+		<form method="post" action="{% url 'records-add' %}" id="form-record" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div style="display:none">
 				{% include 'records/add_record/navbar.html' %}

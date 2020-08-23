@@ -22,7 +22,9 @@ class RecordForm(forms.ModelForm):
                                                classification=classification,
                                                psced_classification=psced_classification))
         if record_len == 0:
-            m = super(RecordForm, self).save()
+            m = super(RecordForm, self).save(commit=False)
+            if commit:
+                m.save()
             return m
         return None
 

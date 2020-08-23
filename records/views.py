@@ -2,6 +2,7 @@ import json
 import mimetypes
 
 from django.core.exceptions import ValidationError
+from django.core.files.storage import FileSystemStorage
 from django.db import DataError
 from django.db.models import Count
 from django.forms import modelformset_factory
@@ -156,6 +157,7 @@ class Add(View):
     collaboration_types = CollaborationType.objects.all()
     record_form = forms.RecordForm()
     publication_form = forms.PublicationForm()
+    record = Record.objects.all()
 
     @method_decorator(login_required(login_url='/'))
     def get(self, request):
@@ -173,7 +175,15 @@ class Add(View):
         error_messages = []
         record_form = forms.RecordForm(request.POST)
         if record_form.is_valid():
-            record = record_form.save()
+            # upload file
+            record = None
+            if request.POST.get('upload-abstract', 'false') == 'true':
+                record = record_form.save(commit=False)
+                project = request.FILES['abstract']
+                record.abstract_filename = project.name
+                record.save()
+                fs = FileSystemStorage()
+                fs.save('abstract/' + str(record.pk) + '/' + project.name, project)
             if record is not None:
                 publication_form = forms.PublicationForm(request.POST)
                 if publication_form.is_valid():
@@ -355,6 +365,17 @@ def download_format(request):
     fl_path = '/media'
     filename = 'data.xlsx'
     fl = open('media/data.xlsx', 'rb')
+    mime_type, _ = mimetypes.guess_type(fl_path)
+    response = HttpResponse(fl, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response
+
+
+def download_abstract(request, record_id):
+    record = Record.objects.get(pk=record_id)
+    fl_path = '/media/abstract/'+str(record_id)+'/'
+    filename = record.abstract_filename
+    fl = open('media/abstract/'+str(record_id)+'/'+filename, 'rb')
     mime_type, _ = mimetypes.guess_type(fl_path)
     response = HttpResponse(fl, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % filename

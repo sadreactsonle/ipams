@@ -8,4 +8,5 @@ urlpatterns = [
     path('update/<int:record_id>', views.Update.as_view(), name='records-update'),
     path('uploadexcel/', views.ParseExcel.as_view(), name='records-upload'),
     path('downloadformat/', views.download_format, name='records-download-format'),
+    path('download/abstract/<int:record_id>', views.download_abstract, name='records-download-abstract'),
 ]
