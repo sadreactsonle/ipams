@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <a href="{{ record.abstract_file.url }}">Download abstract</a>
-                    <!--<a href="{% url 'records-download-abstract' record_id=record.pk %}">download abstract: </a><label>{{ record.abstract_filename }}</label>-->
+                    <a href="{% url 'records-download-abstract' record_id=record.pk %}">{{ record.abstract_file }}</a>
+                    <a href="{% url 'records-download-abstract' record_id=record.pk %}">download abstract: </a>
                 </div>
             </div>

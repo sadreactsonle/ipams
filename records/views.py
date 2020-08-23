@@ -375,10 +375,16 @@ def download_format(request):
 
 def download_abstract(request, record_id):
     record = Record.objects.get(pk=record_id)
-    fl_path = '/media/abstract/'+str(record_id)+'/'
-    filename = record.abstract_filename
-    fl = open('media/abstract/'+str(record_id)+'/'+filename, 'rb')
-    mime_type, _ = mimetypes.guess_type(fl_path)
-    response = HttpResponse(fl, content_type=mime_type)
-    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    # print(record.abstract_file.filename)
+    # fl_path = '/media/'+str(record.abstract_file)
+    # filename = record.abstract_filename
+    # fl = open('media/'+record.abstract_file, 'rb')
+    # mime_type, _ = mimetypes.guess_type(fl_path)
+    # response = HttpResponse(fl, content_type=mime_type)
+    # response['Content-Disposition'] = "attachment; filename=%s" % filename
+    # return response
+    filename = record.abstract_file.name.split('/')[-1]
+    response = HttpResponse(record.abstract_file, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
     return response
