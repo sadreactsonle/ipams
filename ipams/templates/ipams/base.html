@@ -218,103 +218,103 @@
                 </div>
             </div>
 	    </div>
-        {% endif %}
-
-        {% block content %}{% endblock %}
 
 
+        <!-- --------------------------------Modal--------------------------------------------- -->
+        <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <h5 class="modal-title">Profile</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6">
 
-    </div>
-
-
-    <!-- --------------------------------Modal--------------------------------------------- -->
-    <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                        <h5 class="modal-title">Profile</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-6">
-
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a href="#">My records</a>
-                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a href="#">Pending records</a>
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="#">My records</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a href="#">Approved records</a>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="#">Pending records</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a href="#">Declined records</a>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="#">Approved records</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <a href="#">Edit profile</a>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="#">Declined records</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <a href="#">Edit profile</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <label>Name:</label>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label>Name:</label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" value="{{ user.first_name }} {{ user.last_name }}" readonly>
+                                            </div>
                                         </div>
-                                        <div class="col-9">
-                                            <input class="form-control" value="{{ user.first_name }} {{ user.last_name }}" readonly>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label>Age:</label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" readonly>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <label>Age:</label>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label>E-mail:</label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" value="{{ user.email }}" readonly>
+                                            </div>
                                         </div>
-                                        <div class="col-9">
-                                            <input class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <label>E-mail:</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input class="form-control" value="{{ user.email }}" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <label>Contact:</label>
-                                        </div>
-                                        <div class="col-9">
-                                            <input class="form-control" value="{{ user.contact_no }}" readonly>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label>Contact:</label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" value="{{ user.contact_no }}" readonly>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
     </div>
+
+
+
 
     <script src="{% static 'js/jquery/jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
