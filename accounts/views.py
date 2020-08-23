@@ -1,9 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout as auth_logout
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.shortcuts import redirect
 from . import forms
+from .models import User
 
 
 class RegisterView(View):
@@ -66,3 +68,17 @@ class LoginView(View):
 def logout(request):
     auth_logout(request)
     return redirect('/')
+
+
+def get_all_accounts(request):
+    accounts = User.objects.all()
+    data = []
+    for account in accounts:
+        data.append([
+            '',
+            account.pk,
+            str(account.username),
+            str(account.last_name)+', '+str(account.first_name),
+            account.role,
+        ])
+    return JsonResponse({'data': data})
