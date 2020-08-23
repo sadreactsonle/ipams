@@ -64,7 +64,9 @@ class Home(View):
             elif request.POST.get('remove'):
                 titles = request.POST.getlist('titles[]')
                 for title_id in titles:
-                    Record.objects.get(pk=int(title_id)).delete()
+                    del_record = Record.objects.get(pk=int(title_id))
+                    del_record.abstract_file.delete()
+                    del_record.delete()
                 return JsonResponse({'success': True})
             # filtering records from an ajax request
             elif request.POST.get('is_filtered') == 'True':
@@ -175,16 +177,7 @@ class Add(View):
         error_messages = []
         record_form = forms.RecordForm(request.POST, request.FILES)
         if record_form.is_valid():
-            # upload file
-            # record = None
             record = record_form.save()
-            # if request.POST.get('upload-abstract', 'false') == 'true':
-            #     record = record_form.save(commit=False)
-            #     project = request.FILES['abstract']
-            #     record.abstract_filename = project.name
-            #     record.save()
-            #     fs = FileSystemStorage()
-            #     fs.save('abstract/' + str(record.pk) + '/' + project.name, project)
             if record is not None:
                 publication_form = forms.PublicationForm(request.POST)
                 if publication_form.is_valid():

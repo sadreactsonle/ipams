@@ -18,9 +18,10 @@
                     <input type="text" name="abstract" class="form-control" placeholder="abstract" value="{{ record.abstract }}" readonly>
                 </div>
             </div>
+            {% if record.abstract_file %}
             <div class="row">
                 <div class="col-12">
-                    <a href="{% url 'records-download-abstract' record_id=record.pk %}">{{ record.abstract_file }}</a>
-                    <a href="{% url 'records-download-abstract' record_id=record.pk %}">download abstract: </a>
+                    <a href="{% url 'records-download-abstract' record_id=record.pk %}">Download abstract</a>
                 </div>
             </div>
+            {% endif %}
