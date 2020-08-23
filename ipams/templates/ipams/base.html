@@ -25,6 +25,10 @@
                 margin: 0;
             }
 
+            .modal-ku{
+                width:500px;
+            }
+
             .full-height {
                 height: 100vh;
             }
@@ -202,7 +206,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
                 <div class="dropdown dropleft">
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button data-backdrop="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user fa-md"></i>
                     </button>
                     <div class="dropdown-menu" style="position:absolute">
@@ -219,92 +223,95 @@
         {% block content %}{% endblock %}
 
 
-        <!-- --------------------------------Modal--------------------------------------------- -->
-        <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="modal-header">
-                            <h5 class="modal-title">Profile</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-6">
 
+    </div>
+
+
+    <!-- --------------------------------Modal--------------------------------------------- -->
+    <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title">Profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6">
+
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a href="#">My records</a>
+                                                </div>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="#">My records</a>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a href="#">Pending records</a>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="#">Pending records</a>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a href="#">Approved records</a>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="#">Approved records</a>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a href="#">Declined records</a>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="#">Declined records</a>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="#">Edit profile</a>
-                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <a href="#">Edit profile</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label>Name:</label>
-                                            </div>
-                                            <div class="col-9">
-                                                <input class="form-control" value="{{ user.first_name }} {{ user.last_name }}" readonly>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Name:</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label>Age:</label>
-                                            </div>
-                                            <div class="col-9">
-                                                <input class="form-control" readonly>
-                                            </div>
+                                        <div class="col-9">
+                                            <input class="form-control" value="{{ user.first_name }} {{ user.last_name }}" readonly>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label>E-mail:</label>
-                                            </div>
-                                            <div class="col-9">
-                                                <input class="form-control" value="{{ user.email }}" readonly>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Age:</label>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label>Contact:</label>
-                                            </div>
-                                            <div class="col-9">
-                                                <input class="form-control" value="{{ user.contact_no }}" readonly>
-                                            </div>
+                                        <div class="col-9">
+                                            <input class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>E-mail:</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input class="form-control" value="{{ user.email }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label>Contact:</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input class="form-control" value="{{ user.contact_no }}" readonly>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -317,6 +324,8 @@
     <script type="text/javascript" src="{% static 'js/datatables/dataTables.select.min.js' %}"></script>
     <script src="{% static 'js/sweetalert/sweetalert2.min.js' %}"></script>
     <script src="{% static 'js/chart/Chart.min.js' %}"></script>
+
+
     {% block footer %}{% endblock %}
 </body>
 </html>
