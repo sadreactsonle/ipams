@@ -72,12 +72,12 @@ class Record(models.Model):
 
 
 class Publication(models.Model):
-    name = models.CharField(max_length=200)
-    isbn = models.CharField(max_length=50)
-    issn = models.CharField(max_length=50)
-    isi = models.CharField(max_length=50)
-    year_published = models.CharField(max_length=50)
-    publication_level = models.ForeignKey(PublicationLevel, on_delete=models.DO_NOTHING)
+    name = models.CharField(max_length=200, null=True)
+    isbn = models.CharField(max_length=50, null=True, blank=True)
+    issn = models.CharField(max_length=50, null=True, blank=True)
+    isi = models.CharField(max_length=50, null=True, blank=True)
+    year_published = models.CharField(max_length=50, null=True, blank=True)
+    publication_level = models.ForeignKey(PublicationLevel, on_delete=models.DO_NOTHING, null=True, blank=True)
     record = models.OneToOneField(Record, on_delete=models.CASCADE, primary_key=True, default=None)
     date_created = models.DateTimeField(auto_now_add=True)
 
