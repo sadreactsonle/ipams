@@ -177,8 +177,13 @@ class Add(View):
         error_messages = []
         record_form = forms.RecordForm(request.POST, request.FILES)
         if record_form.is_valid():
-            record = record_form.save()
-            if record is not None:
+            record = record_form.save(commit=False)
+            file_is_valid = True
+            if record_form.cleaned_data['abstract_file'].size > 5242880:
+                file_is_valid = False
+            else:
+                record.save()
+            if record is not None and file_is_valid:
                 publication_form = forms.PublicationForm(request.POST)
                 if publication_form.is_valid():
                     publication = publication_form.save(commit=False)
@@ -212,6 +217,10 @@ class Add(View):
                     Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_types[i]),
                                   industry=industries[i], institution=institutions[i], record=record).save()
                 return redirect('records-index')
+            elif not file_is_valid:
+                error = {'title': 'Unable to save record',
+                         'body': 'The file cannot be more than 5 MB'}
+                error_messages.append(error)
             else:
                 error = {'title': 'Unable to save record', 'body': 'A record with the same record information already exists'}
                 error_messages.append(error)
@@ -368,14 +377,6 @@ def download_format(request):
 
 def download_abstract(request, record_id):
     record = Record.objects.get(pk=record_id)
-    # print(record.abstract_file.filename)
-    # fl_path = '/media/'+str(record.abstract_file)
-    # filename = record.abstract_filename
-    # fl = open('media/'+record.abstract_file, 'rb')
-    # mime_type, _ = mimetypes.guess_type(fl_path)
-    # response = HttpResponse(fl, content_type=mime_type)
-    # response['Content-Disposition'] = "attachment; filename=%s" % filename
-    # return response
     filename = record.abstract_file.name.split('/')[-1]
     response = HttpResponse(record.abstract_file, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
