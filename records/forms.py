@@ -7,6 +7,7 @@ from crispy_forms.helper import FormHelper
 
 
 class RecordForm(forms.ModelForm):
+    use_required_attribute = False
 
     class Meta:
         model = Record
@@ -29,6 +30,7 @@ class RecordForm(forms.ModelForm):
 
 
 class PublicationForm(forms.ModelForm):
+    use_required_attribute = False
     publication_name = forms.CharField(required=False)
 
     class Meta:
@@ -44,6 +46,7 @@ class PublicationForm(forms.ModelForm):
 
 
 class AuthorForm(forms.ModelForm):
+    use_required_attribute = False
 
     class Meta:
         model = Author
@@ -51,6 +54,7 @@ class AuthorForm(forms.ModelForm):
 
 
 class BudgetForm(forms.ModelForm):
+    use_required_attribute = False
 
     class Meta:
         model = Budget
@@ -58,6 +62,7 @@ class BudgetForm(forms.ModelForm):
 
 
 class ConferenceForm(forms.ModelForm):
+    use_required_attribute = False
 
     class Meta:
         model = Conference
@@ -65,6 +70,7 @@ class ConferenceForm(forms.ModelForm):
 
 
 class CollaborationForm(forms.ModelForm):
+    use_required_attribute = False
 
     class Meta:
         model = Collaboration
