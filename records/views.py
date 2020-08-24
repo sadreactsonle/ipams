@@ -181,7 +181,8 @@ class Add(View):
         if record_form.is_valid():
             record = record_form.save(commit=False)
             file_is_valid = True
-            if record_form.cleaned_data['abstract_file'].size > 5242880:
+            file = record_form.cleaned_data.get('abstract_file', False)
+            if file and file.size > 5242880:
                 file_is_valid = False
             else:
                 record.save()
@@ -358,9 +359,9 @@ class ParseExcel(View):
                         request.session['import_message'] = 'success'
                 else:
                     break
-        except (MultiValueDictKeyError, KeyError, ValueError):
+        except (MultiValueDictKeyError, KeyError, ValueError, OSError):
             request.session['import_message'] = 'failed'
-            print('Multivaluedictkeyerror/KeyError/ValueError')
+            print('Multivaluedictkeyerror/KeyError/ValueError/OSError')
         except (DataError, ValidationError):
             request.session['import_message'] = 'failed'
             print('DataError/ValidationError')
