@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from . import forms
 from .decorators import authorized_roles
 from .models import User, UserRole
+from django.db.models import Q
 
 
 class RegisterView(View):
@@ -105,7 +106,7 @@ def get_all_accounts(request):
     if request.method == 'POST':
         accounts = None
         if str.lower(request.user.role.name) == 'adviser':
-            accounts = User.objects.filter(role=UserRole.objects.get(pk=1))
+            accounts = User.objects.filter(Q(role=UserRole.objects.get(pk=1)) | Q(role=UserRole.objects.get(pk=2)))
         else:
             accounts = User.objects.all()
         data = []

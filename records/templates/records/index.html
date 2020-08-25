@@ -54,7 +54,7 @@
 		    $("#id_classification").val("{{ filters.classification }}");
 		    $("#id_psced_classification").val("{{ filters.psced_classification }}");
 
-
+{% if user.role.id > 1 %}
 		    accountsTbl= $('#tbl-accounts').DataTable({
 		    	"ajax":	{
 		    		"headers": { "X-CSRFToken": '{{ csrf_token }}' },
@@ -83,6 +83,7 @@
         		    }
         		],
 		    });
+{% endif %}
 		} );
 
 //------------------------importing spreadsheet----------------------------------------------
@@ -346,19 +347,22 @@
 							<div>
 								{% if user.role.id != 1 %}
 								<a href="{% url 'records-add' %}" class="btn btn-primary" style="margin-bottom:10px"><i class="fa fa-plus fa-md"></i> ADD</a>
-								<button type="button" id="btn-remove" class="btn btn-danger" style="margin-bottom:10px"><i class="fa fa-trash fa-md"></i> REMOVE</button>
 								{% endif %}
+								{% if user.role.id > 3 %}
+								<button type="button" id="btn-remove" class="btn btn-danger" style="margin-bottom:10px"><i class="fa fa-trash fa-md"></i> REMOVE</button>
+							    {% endif %}
 								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#filter-modal" style="margin-bottom:10px"><i class="fa fa-filter fa-md"></i> FILTER</button>
-
 							</div>
 						</div>
 					</div>
+					{% if user.role.id > 3 %}
 					<div class="row">
 						<div class="col-12">
 							<button type="button" class="btn btn-secondary" id="records-select-all">SELECT ALL</button>
 							<button type="button" class="btn btn-secondary" id="records-deselect-all">DESELECT ALL</button>
 						</div>
 					</div>
+					{% endif %}
 					<div class="row">
 						<div class="col-12">
 							<table id="tbl-records" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
