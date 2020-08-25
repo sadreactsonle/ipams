@@ -10,13 +10,29 @@ class LoginForm(forms.Form):
 
 
 class RegistrationForm(forms.ModelForm):
-    role = forms.ChoiceField(choices=(('rdco', 'rdco'), ('ktto', 'ktto'), ('adviser', 'adviser'), ('student', 'student'), ('guest', 'guest'), ))
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'contact_no', 'role', 'password')
+
+    def cleaned_password(self):
+        password = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password2')
+        if password != password2:
+            return None
+        return password
+
+
+
+class SignupForm(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
 
     def cleaned_password(self):
         password = self.cleaned_data.get('password')

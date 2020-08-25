@@ -22,18 +22,25 @@ class UserManager(BaseUserManager):
 		user.is_admin = True
 		user.is_staff = True
 		user.is_superuser = True
-		user.role = 'ktto'
 		user.save(using=self._db)
 		return user
+
+
+class UserRole(models.Model):
+	name = models.CharField(max_length=100)
+	date_created = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.name
 
 
 class User(AbstractBaseUser, PermissionsMixin):
 	username = models.CharField(max_length=30, unique=True)
 	first_name = models.CharField(max_length=50, null=True, blank=True)
 	last_name = models.CharField(max_length=50, null=True, blank=True)
-	email = models.CharField(max_length=30, unique=True, null=True, blank=True)
+	email = models.CharField(max_length=30, unique=True)
 	contact_no = models.CharField(max_length=20, null=True, blank=True)
-	role = models.CharField(max_length=20)
+	role = models.ForeignKey(UserRole, on_delete=models.CASCADE, default=1)
 	is_admin = models.BooleanField(default=False)
 	is_staff = models.BooleanField(default=False)
 	is_superuser = models.BooleanField(default=False)

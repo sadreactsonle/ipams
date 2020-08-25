@@ -37,6 +37,36 @@ class RegisterView(View):
         return render(request, self.name, {'form': form, 'error_message': error_message, 'hide_profile': True})
 
 
+class SignupView(View):
+    name = 'accounts/signup.html'
+
+    def get(self, request):
+        form = forms.SignupForm()
+        return render(request, self.name, {'form': form, 'hide_profile': True})
+
+    def post(self, request):
+        form = forms.SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_password()
+            if password:
+                user.set_password(password)
+                user.role = 'guest'
+                user.save()
+                login(request, user)
+                return redirect('/')
+            error_message = 'Password did not match!'
+        else:
+            if not form.cleaned_data.get('username'):
+                error_message = 'Username not available'
+            elif not form.cleaned_data.get('email'):
+                error_message = 'That E-mail is already in used by another user'
+            else:
+                error_message = 'Invalid form'
+        form = forms.RegistrationForm()
+        return render(request, self.name, {'form': form, 'error_message': error_message, 'hide_profile': True})
+
+
 class LoginView(View):
     name = 'accounts/index.html'
 
@@ -79,6 +109,6 @@ def get_all_accounts(request):
             account.pk,
             str(account.username),
             str(account.last_name)+', '+str(account.first_name),
-            account.role,
+            account.role.name,
         ])
     return JsonResponse({'data': data})
