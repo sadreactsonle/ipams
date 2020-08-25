@@ -47,6 +47,7 @@
         		    	"width": 20,
         		    	"className": 'select-checkbox',
         		    	"targets": 0,
+        		    	"visible": {% if user.role.id < 3 %} false {% else %} true {% endif %}
         		    },
         		],
 		    });
@@ -343,8 +344,10 @@
 					<div class="row">
 						<div class="col-md-6 d-flex">
 							<div>
+								{% if user.role.id != 1 %}
 								<a href="{% url 'records-add' %}" class="btn btn-primary" style="margin-bottom:10px"><i class="fa fa-plus fa-md"></i> ADD</a>
 								<button type="button" id="btn-remove" class="btn btn-danger" style="margin-bottom:10px"><i class="fa fa-trash fa-md"></i> REMOVE</button>
+								{% endif %}
 								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#filter-modal" style="margin-bottom:10px"><i class="fa fa-filter fa-md"></i> FILTER</button>
 
 							</div>
@@ -608,7 +611,7 @@ section with the new entry.</li>
 	    	  <div class="modal-footer">
 				  <input type="hidden" value="true" name="is_filtered"/>
 	    	    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	    	    <button type="submit" id="btn-filter-save" class="btn btn-primary">Save changes</button>
+	    	    <button type="submit" id="btn-filter-save" class="btn btn-primary">Apply</button>
 	    	  </div>
 				</form>
 	    	</div>

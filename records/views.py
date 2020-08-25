@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 
+from accounts.decorators import authorized_roles
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
     CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
 from django.shortcuts import redirect
@@ -163,6 +164,7 @@ class Add(View):
     publication_form = forms.PublicationForm()
     record = Record.objects.all()
 
+    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
     @method_decorator(login_required(login_url='/'))
     def get(self, request):
         context = {
@@ -244,6 +246,7 @@ class Add(View):
 class Update(View):
     name = 'records/update.html'
 
+    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
     @method_decorator(login_required(login_url='/'))
     def get(self, request, record_id):
         author_roles = AuthorRole.objects.all()
@@ -368,6 +371,7 @@ class ParseExcel(View):
         return redirect('records-index')
 
 
+@authorized_roles(roles=['adviser', 'ktto', 'rdco'])
 def download_format(request):
     fl_path = '/media'
     filename = 'data.xlsx'
@@ -378,6 +382,7 @@ def download_format(request):
     return response
 
 
+@authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco'])
 def download_abstract(request, record_id):
     record = Record.objects.get(pk=record_id)
     filename = record.abstract_file.name.split('/')[-1]

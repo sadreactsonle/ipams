@@ -1,10 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.shortcuts import redirect
 from . import forms
+from .decorators import authorized_roles
 from .models import User, UserRole
 
 
@@ -100,18 +100,24 @@ def logout(request):
     return redirect('/')
 
 
+@authorized_roles(roles=['adviser', 'ktto', 'rdco'])
 def get_all_accounts(request):
-    accounts = User.objects.all()
-    data = []
-    for account in accounts:
-        data.append([
-            '',
-            account.pk,
-            str(account.username),
-            str(account.last_name)+', '+str(account.first_name),
-            account.role.name,
-        ])
-    return JsonResponse({'data': data})
+    if request.method == 'POST':
+        accounts = None
+        if str.lower(request.user.role.name) == 'adviser':
+            accounts = User.objects.filter(role=UserRole.objects.get(pk=1))
+        else:
+            accounts = User.objects.all()
+        data = []
+        for account in accounts:
+            data.append([
+                '',
+                account.pk,
+                str(account.username),
+                str(account.first_name)+' '+str(account.last_name),
+                account.role.name,
+            ])
+        return JsonResponse({'data': data})
 
 
 def save_profile(request):
@@ -128,3 +134,4 @@ def save_profile(request):
             user.contact_no = contact_no
         user.save()
     return JsonResponse({'message': 'success'})
+

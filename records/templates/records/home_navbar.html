@@ -2,7 +2,9 @@
     <div class="nav nav-tabs" role="tablist">
         <a class="nav-item nav-link nav-main active" data-toggle="tab" href="#nav-home-records" role="tab">RECORDS</a>
         <a class="nav-item nav-link nav-main" data-toggle="tab" href="#nav-home-graphs" role="tab">GRAPHS</a>
+        {% if user.role.id > 2 %}
         <a class="nav-item nav-link nav-main" data-toggle="tab" href="#nav-home-accounts" role="tab">ACCOUNTS</a>
         <a class="nav-item nav-link nav-main" data-toggle="tab" href="#nav-home-upload" role="tab">UPLOAD</a>
+        {% endif %}
     </div>
 </nav>
