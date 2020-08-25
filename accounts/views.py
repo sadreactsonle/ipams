@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views import View
 from django.shortcuts import redirect
 from . import forms
-from .models import User
+from .models import User, UserRole
 
 
 class RegisterView(View):
@@ -51,7 +51,7 @@ class SignupView(View):
             password = form.cleaned_password()
             if password:
                 user.set_password(password)
-                user.role = 'guest'
+                user.role = UserRole.objects.get(pk=1)
                 user.save()
                 login(request, user)
                 return redirect('/')
@@ -112,3 +112,19 @@ def get_all_accounts(request):
             account.role.name,
         ])
     return JsonResponse({'data': data})
+
+
+def save_profile(request):
+    if request.method == 'POST':
+        user = request.user
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        contact_no = request.POST.get('contact_no')
+        if first_name != '':
+            user.first_name = first_name
+        if last_name != '':
+            user.last_name = last_name
+        if contact_no != '':
+            user.contact_no = contact_no
+        user.save()
+    return JsonResponse({'message': 'success'})

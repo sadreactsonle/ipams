@@ -70,6 +70,9 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            .profile-row{
+                margin-top:10px;
+            }
 
 
         </style>
@@ -259,7 +262,7 @@
                         <i class="fa fa-user fa-md"></i>
                     </button>
                     <div class="dropdown-menu" style="position:absolute">
-                        <label class="dropdown-item disabled">{{ user.first_name }}</label>
+                        <label class="dropdown-item disabled">{{ user.username }}</label>
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profile-modal">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'accounts-logout' %}">Logout</a>
@@ -273,7 +276,7 @@
         <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form method="post">
+                    <form method="post" id="profile-form">
                         {% csrf_token %}
                         <div class="modal-header">
                             <h5 class="modal-title">Profile</h5>
@@ -312,41 +315,47 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <a href="#">Edit profile</a>
+                                                        <a href="#" id="edit-profile">Edit profile</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row profile-row">
                                             <div class="col-3">
                                                 <label>Name:</label>
                                             </div>
                                             <div class="col-9">
-                                                <input class="form-control" value="{{ user.first_name }} {{ user.last_name }}" readonly>
+                                                <input class="form-control profile-input" value="{{ user.first_name }} {{ user.last_name }}" id="full_name" readonly>
+                                                <div class="row" style="display:none" id="multi-name-row">
+                                                    <div class="col-6">
+                                                        <input class="form-control profile-input" placeholder="First Name" value="{{ user.first_name }}" id="first_name" name="first_name">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <input class="form-control profile-input" placeholder="Last Name" value="{{ user.last_name }}" id="last_name" name="last_name">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <label>Age:</label>
-                                            </div>
-                                            <div class="col-9">
-                                                <input class="form-control" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
+                                        <div class="row profile-row">
                                             <div class="col-3">
                                                 <label>E-mail:</label>
                                             </div>
                                             <div class="col-9">
-                                                <input class="form-control" value="{{ user.email }}" readonly>
+                                                <input class="form-control profile-input" value="{{ user.email }}" readonly>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row profile-row">
                                             <div class="col-3">
                                                 <label>Contact:</label>
                                             </div>
                                             <div class="col-9">
-                                                <input class="form-control" value="{{ user.contact_no }}" readonly>
+                                                <input class="form-control profile-input editable" value="{{ user.contact_no }}" id="contact_no" name="contact_no" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row profile-row" id="profile-btn-footer" style="display:none">
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button type="button" class="btn btn-danger" style="margin-right:10px" id="btn-profile-cancel">Cancel</button>
+                                                <button type="button" class="btn btn-success" id="btn-profile-save">Save</button>
                                             </div>
                                         </div>
                                     </div>
@@ -374,6 +383,43 @@
     <script src="{% static 'js/sweetalert/sweetalert2.min.js' %}"></script>
     <script src="{% static 'js/chart/Chart.min.js' %}"></script>
 
+    <script>
+        $("#edit-profile").on("click",function(){
+            $(".profile-input.editable").removeAttr("readonly");
+            $("#edit-profile").hide();
+            $("#profile-btn-footer").show();
+            $("#full_name").hide()
+            $("#multi-name-row").show();
+        });
+        $("#btn-profile-cancel").on("click",function(){
+            $(".profile-input.editable").attr("readonly", "true");
+            $("#edit-profile").show();
+            $("#profile-btn-footer").hide();
+            $("#full_name").show();
+            $("#multi-name-row").hide();
+        });
+
+        {% if not hide_profile %}
+        $("#btn-profile-save").on("click", function(){
+            $("#profile-btn-footer").hide();
+            $.ajax({
+               	headers: { "X-CSRFToken": '{{ csrf_token }}' },
+               	url: "{% url 'accounts-profile-save' %}",
+               	type: "post",
+		    	data: $("#profile-form").serialize(),
+		    	success: function(data){
+                    $("#btn-profile-cancel").click();
+                    $("#full_name").val($("#first_name").val()+" "+$("#last_name").val());
+		    	},
+		    	error: function(data){
+		    		alert("error");
+		    	}
+            });
+        });
+        {% endif %}
+
+
+    </script>
 
     {% block footer %}{% endblock %}
 </body>

@@ -12,34 +12,35 @@
     {% endif %}
     <div class="row">
         <div class="col-12 d-flex justify-content-center" style="margin-top:50px">
-            <h2>REGISTER</h2>
+            <h2>SIGN UP</h2>
         </div>
     </div>
     <form method="post">
         {% csrf_token %}
         <div class="row" style="margin-top:70px">
-            <div class="col-4 offset-4">
+            <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
                 {{ form.username|as_crispy_field }}
             </div>
         </div>
         <div class="row">
-            <div class="col-4 offset-4">
+            <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
                 {{ form.email|as_crispy_field }}
             </div>
         </div>
         <div class="row">
-            <div class="col-4 offset-4">
+            <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
                 {{ form.password|as_crispy_field }}
             </div>
         </div>
         <div class="row">
-            <div class="col-4 offset-4">
+            <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
                 {{ form.password2|as_crispy_field }}
             </div>
         </div>
         <div class="row">
-            <div class="col-4 offset-4 d-flex justify-content-end align-items-center" style="margin-bottom:50px">
-                <button class="btn btn-primary" type="submit">Register</button>
+            <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4 d-flex justify-content-end align-items-center" style="margin-bottom:50px">
+                <a href="{% url 'accounts-login' %}" style="margin-right:10px" class="btn btn-yellow-solid">Back</a>
+                <button class="btn btn-primary" type="submit">Sign Up</button>
             </div>
         </div>
     </form>
