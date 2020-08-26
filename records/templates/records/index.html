@@ -54,7 +54,7 @@
 		    $("#id_classification").val("{{ filters.classification }}");
 		    $("#id_psced_classification").val("{{ filters.psced_classification }}");
 
-{% if user.role.id > 1 %}
+{% if user.role.id > 2 %}
 		    accountsTbl= $('#tbl-accounts').DataTable({
 		    	"ajax":	{
 		    		"headers": { "X-CSRFToken": '{{ csrf_token }}' },
