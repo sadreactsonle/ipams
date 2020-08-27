@@ -105,8 +105,8 @@ def login_user(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                if request.GET.get('next'):
-                    return redirect(request.GET.get('next'))
+                if request.POST.get('next'):
+                    return redirect(request.POST.get('next'))
             else:
                 request.session['error_message'] = 'Invalid Username/Password'
     return redirect('records-index')
