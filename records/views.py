@@ -29,11 +29,15 @@ class Home(View):
 
     def get(self, request):
         import_message = request.session.get('import_message', False)
+        error_message = request.session.get('error_message', False)
         if import_message:
             del request.session['import_message']
+        if error_message:
+            del request.session['error_message']
         context = {
             'records': Record.objects.all(),
             'import_message': import_message,
+            'error_message': error_message,
             'record_form': forms.RecordForm(),
             'login_form': LoginForm(),
         }
@@ -113,7 +117,7 @@ class Home(View):
                 data.append([
                     '',
                     record.pk,
-                    '<a href="/records/view/' + str(
+                    '<a href="/view/' + str(
                     record.pk) + '">' + record.title + '</a>',
                     record.year_accomplished,
                     record.classification.name,

@@ -107,10 +107,9 @@ def login_user(request):
                 login(request, user)
                 if request.GET.get('next'):
                     return redirect(request.GET.get('next'))
-                return redirect('records-index')
-        form = forms.LoginForm()
-        return render(request, self.name, {'error_message': 'Invalid Username/Password',
-                                           'form': form})
+            else:
+                request.session['error_message'] = 'Invalid Username/Password'
+    return redirect('records-index')
 
 
 def logout(request):
