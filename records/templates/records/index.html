@@ -146,6 +146,14 @@
 				  }
 				})
 			}
+			else{
+				Swal.fire({
+				  type: 'warning',
+				  title: 'No rows selected!',
+				  html: 'You must first select a record',
+				  showConfirmButton: true,
+				})
+			}
 		});
 //---------------------------------Graphs---------------------------------------------
 		function initGraphs(){
@@ -408,12 +416,28 @@
 
 {% block content %}
 
-	<div class="container-fluid" style="overflow-x:auto">
+	<div class="container" style="overflow-x:auto">
 		<div style="min-width:552px; padding-top:40px">
 		{% include 'records/home_navbar.html' %}
 
 		<div class="tab-content main-container" id="nav-tabContent">
-			<div class="tab-pane fade show active " id="nav-home-records" role="tabpanel">
+			<div class="tab-pane fade show active " id="nav-home-landing" role="tabpanel">
+				<div class="main-header"></div>
+				<section id="home-landing" class="main-content">
+					<div class="row">
+						<div class="col-6">
+							<h1>IPAMS</h1>
+							<label class="card-subtitle mb-2 text-muted">Intellectual Property Asset Management System</label>
+							<p style="margin-top:20px">
+								is a tool for managing and organizing intellectual properties which are an essential part to the institution.
+							</p>
+						</div>
+					</div>
+					<div class="row">
+					</div>
+				</section>
+			</div>
+			<div class="tab-pane fade" id="nav-home-records" role="tabpanel">
 				<div class="main-header"></div>
 				<section id="home-records" class="main-content">
 					<div class="row">
