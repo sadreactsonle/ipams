@@ -436,9 +436,9 @@
 					</div>
 					{% if user.role.id > 3 %}
 					<div class="row">
-						<div class="col-12">
-							<button type="button" class="btn btn-secondary" id="records-select-all">SELECT ALL</button>
-							<button type="button" class="btn btn-secondary" id="records-deselect-all">DESELECT ALL</button>
+						<div class="col-12 d-flex align-items-center">
+							<a id="records-select-all" href="#" style="margin-right:10px">SELECT ALL</a>
+							<a id="records-deselect-all" href="#" style="border-left: 1px solid #ccc; padding-left:10px">NONE</a>
 						</div>
 					</div>
 					{% endif %}
@@ -522,9 +522,9 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-auto">
-							<button type="button" class="btn btn-secondary" id="accounts-select-all">SELECT ALL</button>
-							<button type="button" class="btn btn-secondary" id="accounts-deselect-all">DESELECT ALL</button>
+						<div class="col-auto d-flex align-items-center">
+							<a id="accounts-select-all" href="#" style="margin-right:10px">SELECT ALL</a>
+							<a id="accounts-deselect-all" href="#" style="border-left: 1px solid #ccc; padding-left:10px">NONE</a>
 						</div>
 						<div class="col-lg-3">
 							<select class="form-control" id="select-account-action">

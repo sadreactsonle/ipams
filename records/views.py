@@ -119,7 +119,7 @@ class Home(View):
                 data.append([
                     '',
                     record.pk,
-                    '<a href="/view/' + str(
+                    '<a href="/record/' + str(
                     record.pk) + '">' + record.title + '</a>',
                     record.year_accomplished,
                     record.classification.name,

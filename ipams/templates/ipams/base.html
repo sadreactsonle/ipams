@@ -208,8 +208,11 @@
     <div class="container-fluid">
 
         {% if not hide_profile %}
-        <div class="row">
-            <div class="col-12 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
+        <div class="row d-flex align-items-center" style="background-color:black">
+            <div class="col-8">
+                <h4><b><a href="{% url 'records-index' %}" style="text-decoration:none; color:white">IPAMS</a></b></h4>
+            </div>
+            <div class="col-4 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
                 <div class="dropdown dropleft">
                     <button data-backdrop="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user fa-md"></i>
@@ -217,7 +220,7 @@
                     <div class="dropdown-menu" style="position:absolute">
                         {% if user.is_authenticated %}
                         <label class="dropdown-item disabled">{{ user.username }}</label>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profile-modal">Profile</a>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profile-modal">Profile Settings</a>
                         {% if user.role.id > 1 %}
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header"><i class="fa fa-book"></i> Records</h6>
@@ -256,7 +259,7 @@
                     <form method="post" id="profile-form">
                         {% csrf_token %}
                         <div class="modal-header">
-                            <h5 class="modal-title">Profile</h5>
+                            <h5 class="modal-title">Profile Settings</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
