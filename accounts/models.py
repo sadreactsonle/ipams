@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
 	BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
+from records.models import Record
 
 
 class UserManager(BaseUserManager):
@@ -47,3 +48,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 	objects = UserManager()
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ['email']
+
+
+class UserRecord(models.Model):
+	record = models.ForeignKey(Record, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)

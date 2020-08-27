@@ -11,7 +11,7 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse
 
 from accounts.decorators import authorized_roles
-from accounts.models import User, UserRole
+from accounts.models import User, UserRole, UserRecord
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
     CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
 from django.shortcuts import redirect
@@ -203,6 +203,7 @@ class Add(View):
                 file_is_valid = False
             else:
                 record.save()
+                UserRecord(user=request.user, record=record).save()
             if record is not None and file_is_valid:
                 publication_form = forms.PublicationForm(request.POST)
                 if publication_form.is_valid():
@@ -405,3 +406,39 @@ def download_abstract(request, record_id):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
+
+
+class MyRecordsView(View):
+    template_name = 'records/profile/my_records.html'
+
+    @method_decorator(login_required(login_url='/'))
+    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class PendingRecordsView(View):
+    template_name = 'records/profile/pending_records.html'
+
+    @method_decorator(login_required(login_url='/'))
+    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class ApprovedRecordsView(View):
+    template_name = 'records/profile/approved_records.html'
+
+    @method_decorator(login_required(login_url='/'))
+    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class DeclinedRecordsView(View):
+    template_name = 'records/profile/declined_records.html'
+
+    @method_decorator(login_required(login_url='/'))
+    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
+    def get(self, request):
+        return render(request, self.template_name)

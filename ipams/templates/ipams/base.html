@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/datatables/select.dataTables.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/sweetalert/sweetalert2.min.css' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
 
     <!-- Styles -->
     <style>
@@ -246,22 +246,22 @@
                                             <div class="col-6">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <a href="#">My records</a>
+                                                        <a href="{% url 'records-myrecords' %}">My records</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <a href="#">Pending records</a>
+                                                        <a href="{% url 'records-pending' %}">Pending records</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <a href="#">Approved records</a>
+                                                        <a href="{% url 'records-approved' %}">Approved records</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <a href="#">Declined records</a>
+                                                        <a href="{% url 'records-declined' %}">Declined records</a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
