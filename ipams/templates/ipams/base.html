@@ -217,6 +217,12 @@
                         <label class="dropdown-item disabled">{{ user.username }}</label>
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profile-modal">Profile</a>
                         <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'records-myrecords' %}">My records</a>
+                                <a class="dropdown-item" href="{% url 'records-pending' %}">Pending records</a>
+                                <a class="dropdown-item" href="{% url 'records-approved' %}">Approved records</a>
+                                <a class="dropdown-item" href="{% url 'records-declined' %}">Declined records</a>
+
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'accounts-logout' %}">Logout</a>
                     </div>
                 </div>
@@ -244,26 +250,6 @@
 
                                             </div>
                                             <div class="col-6">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="{% url 'records-myrecords' %}">My records</a>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="{% url 'records-pending' %}">Pending records</a>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="{% url 'records-approved' %}">Approved records</a>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <a href="{% url 'records-declined' %}">Declined records</a>
-                                                    </div>
-                                                </div>
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <a href="#" id="edit-profile">Edit profile</a>
