@@ -21,6 +21,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from . import forms
+from accounts.forms import LoginForm
 
 
 class Home(View):
@@ -34,6 +35,7 @@ class Home(View):
             'records': Record.objects.all(),
             'import_message': import_message,
             'record_form': forms.RecordForm(),
+            'login_form': LoginForm(),
         }
         return render(request, self.name, context)
 

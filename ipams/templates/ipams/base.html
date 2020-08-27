@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <html>
 <head>
     <meta charset="utf-8">
@@ -214,16 +215,28 @@
                         <i class="fa fa-user fa-md"></i>
                     </button>
                     <div class="dropdown-menu" style="position:absolute">
+                        {% if user.is_authenticated %}
                         <label class="dropdown-item disabled">{{ user.username }}</label>
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profile-modal">Profile</a>
                         <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'records-myrecords' %}">My records</a>
-                                <a class="dropdown-item" href="{% url 'records-pending' %}">Pending records</a>
-                                <a class="dropdown-item" href="{% url 'records-approved' %}">Approved records</a>
-                                <a class="dropdown-item" href="{% url 'records-declined' %}">Declined records</a>
-
+                        <h6 class="dropdown-header"><i class="fa fa-book"></i> Records</h6>
+                        <a class="dropdown-item" href="{% url 'records-myrecords' %}">My records</a>
+                        <a class="dropdown-item" href="{% url 'records-pending' %}">Pending</a>
+                        <a class="dropdown-item" href="{% url 'records-approved' %}">Approved</a>
+                        <a class="dropdown-item" href="{% url 'records-declined' %}">Declined</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'accounts-logout' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'accounts-logout' %}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                        {% else %}
+                            <form  class="px-4 py-3" method="post" action="{% url 'accounts-login' %}">
+                                {% csrf_token %}
+                                {{ login_form|crispy }}
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Log-In</button>
+                                </div>
+                            </form>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts-signup' %}">New around here? Sign up</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

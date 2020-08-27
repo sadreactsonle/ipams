@@ -96,6 +96,23 @@ class LoginView(View):
                                            'form': form, 'hide_profile':True})
 
 
+def login_user(request):
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user:
+                login(request, user)
+                if request.GET.get('next'):
+                    return redirect(request.GET.get('next'))
+                return redirect('records-index')
+        form = forms.LoginForm()
+        return render(request, self.name, {'error_message': 'Invalid Username/Password',
+                                           'form': form})
+
+
 def logout(request):
     auth_logout(request)
     return redirect('/')
