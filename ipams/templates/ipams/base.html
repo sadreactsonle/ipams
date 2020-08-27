@@ -213,11 +213,11 @@
                 <h4><b><a href="{% url 'records-index' %}" style="text-decoration:none; color:white">IPAMS</a></b></h4>
             </div>
             <div class="col-4 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
-                <div class="dropdown dropleft">
+                <div class="dropdown">
                     <button data-backdrop="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user fa-md"></i>
                     </button>
-                    <div class="dropdown-menu" style="position:absolute">
+                    <div class="dropdown-menu dropdown-menu-right" style="position:absolute">
                         {% if user.is_authenticated %}
                         <label class="dropdown-item disabled">{{ user.username }}</label>
                         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profile-modal">Profile Settings</a>
