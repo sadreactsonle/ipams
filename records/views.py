@@ -11,6 +11,7 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse
 
 from accounts.decorators import authorized_roles
+from accounts.models import User, UserRole
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
     CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
 from django.shortcuts import redirect
@@ -71,6 +72,13 @@ class Home(View):
                     del_record.abstract_file.delete()
                     del_record.delete()
                 return JsonResponse({'success': True})
+            # removing accounts
+            elif request.POST.get('remove-accounts'):
+                accounts = request.POST.getlist('accounts[]')
+                for account_id in accounts:
+                    del_account = User.objects.get(pk=int(account_id))
+                    del_account.delete()
+                return JsonResponse({'success': True})
             # filtering records from an ajax request
             elif request.POST.get('is_filtered') == 'True':
                 year_from_filter = request.POST.get('year_from', '0')
@@ -91,6 +99,14 @@ class Home(View):
                         records = records.filter(publication=publications.first())
                     else:
                         records = []
+            # accounts role change
+            elif request.POST.get('role-change') == 'true':
+                accounts = request.POST.getlist('accounts[]')
+                role_id = int(request.POST.get('role-radio'))
+                for account_id in accounts:
+                    user = User.objects.get(pk=int(account_id))
+                    user.role = UserRole.objects.get(pk=role_id)
+                    user.save()
             # setting datatable records
             for record in records:
                 data.append([
