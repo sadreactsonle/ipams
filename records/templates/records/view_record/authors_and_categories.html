@@ -4,6 +4,7 @@
                 </div>
             </div>
             <div id="author-rows">
+                <label>Authors:</label>
                 {% for author in record.author_set.all %}
                     <div class="row" id="author-{{ author.pk }}">
                         <div class="col-7">
@@ -20,7 +21,10 @@
                 {% endfor %}
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col-lg-4">
+                    <label>Classification:</label>
+                </div>
+                <div class="col-lg-8">
                     <select name="classification" class="form-control" disabled>
                         {% for classification in classifications %}
                             <option value="{{ classification.pk }}" {% if record.classification.pk == classification.pk %} selected {% endif %}>{{ classification.name }}</option>
@@ -28,8 +32,11 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
+            <div class="row" style="margin-top:10px">
+                <div class="col-lg-4">
+                    <label>PSCED:</label>
+                </div>
+                <div class="col-lg-8">
                     <select name="psced_classification" class="form-control" disabled>
                         {% for psced_classification in psced_classifications %}
                         <option value="{{ psced_classification.pk }}" {% if record.psced_classification.pk == psced_classification.pk %} selected {% endif %}>{{ psced_classification.name }}</option>

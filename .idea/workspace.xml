@@ -20,7 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9113322-820c-471e-9518-9aaf101f9d70" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/ipams/templates/ipams/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipams/templates/ipams/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/authors_and_categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/authors_and_categories.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/budget.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/collaboration.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/collaboration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/conference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/publication.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/publication.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/title_and_abstract.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/title_and_abstract.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +54,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/records/templates/records/profile" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -55,6 +62,7 @@
       <recent name="D:\Neil\ipams\staticfiles" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -78,11 +86,13 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1598487972644">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup" timestamp="1598744135480">
+      <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1598487972644" />
+    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup/0.27.1366.741@0.27.1366.741" timestamp="1598744135480" />
   </component>
 </project>
