@@ -424,6 +424,21 @@ class MyRecordsView(View):
     def get(self, request):
         return render(request, self.template_name)
 
+    def post(self, request):
+        user_records = UserRecord.objects.filter(user=request.user)
+        data = []
+        for user_record in user_records:
+            data.append([
+                user_record.record.pk,
+                '<a href="/record/' + str(
+                    user_record.record.pk) + '">' + user_record.record.title + '</a>',
+                '',
+                '',
+                'pending',
+                '<a href="#">resubmit</a> | <a href="#">remove</a>',
+            ])
+        return JsonResponse({"data": data})
+
 
 class PendingRecordsView(View):
     template_name = 'records/profile/pending_records.html'
@@ -432,6 +447,47 @@ class PendingRecordsView(View):
     @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
     def get(self, request):
         return render(request, self.template_name)
+
+    def post(self, request):
+        if request.user.role.id == 3:
+            with connection.cursor() as cursor:
+                cursor.execute("select records_record.id, records_record.title, records_checkedrecord.checked_by_id from records_record left join records_checkedrecord on records_record.id = records_checkedrecord.record_id where checked_by_id is NULL;")
+                rows = cursor.fetchall()
+
+            data = []
+            for row in rows:
+                data.append([
+                    row[0],
+                    '<a href="/record/' + str(row[0]) + '">' + row[1] + '</a>',
+                    '',
+                ])
+        elif request.user.role.id == 4:
+            with connection.cursor() as cursor:
+                cursor.execute("select records_record.id, records_record.title, records_checkedrecord.checked_by_id from records_record left join records_checkedrecord on records_record.id = records_checkedrecord.record_id where checked_by_id is NULL;")
+                rows = cursor.fetchall()
+
+            data = []
+            for row in rows:
+                data.append([
+                    row[0],
+                    '<a href="/record/' + str(row[0]) + '">' + row[1] + '</a>',
+                    '<a href="#" onclick="onCommentModalShow()">Approve</a> | '
+                    '<a href="#">Decline</a>',
+                ])
+        elif request.user.role.id == 5:
+            with connection.cursor() as cursor:
+                cursor.execute("select records_record.id, records_record.title, records_checkedrecord.checked_by_id from records_record left join records_checkedrecord on records_record.id = records_checkedrecord.record_id where checked_by_id is NULL;")
+                rows = cursor.fetchall()
+
+            data = []
+            for row in rows:
+                data.append([
+                    row[0],
+                    '<a href="/record/' + str(row[0]) + '">' + row[1] + '</a>',
+                    '<a href="#" onclick="onCommentModalShow(\'approved\',' + str(row[0]) + ', \'' + row[1] + '\')" data-toggle="modal" data-target="#action-modal">Approve</a> | '
+                                                                                                              '<a href="#" data-toggle="modal" onclick="onCommentModalShow(\'declined\',' + str(row[0]) + ', \'' + row[1] + '\')" data-target="#action-modal">Decline</a>',
+                ])
+        return JsonResponse({"data": data})
 
 
 class ApprovedRecordsView(View):

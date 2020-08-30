@@ -21,13 +21,24 @@
   <component name="ChangeListManager">
     <list default="true" id="c9113322-820c-471e-9518-9aaf101f9d70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ipams/templates/ipams/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipams/templates/ipams/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/authors_and_categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/authors_and_categories.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/budget.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/collaboration.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/collaboration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/conference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/publication.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/publication.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/title_and_abstract.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/title_and_abstract.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/home_navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/home_navbar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/records/templates/records/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/authors_and_categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/authors_and_categories.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/budget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/collaboration.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/collaboration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/conference.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/publication.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/publication.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/approved_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/approved_records.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/my_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/my_records.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/pending_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/pending_records.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/title_and_abstract.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/title_and_abstract.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,10 +100,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup" timestamp="1598744135480">
+    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup" timestamp="1598751948933">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1598487972644" />
-    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup/0.27.1366.741@0.27.1366.741" timestamp="1598744135480" />
+    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup/0.27.1366.741@0.27.1366.741" timestamp="1598751948933" />
   </component>
 </project>

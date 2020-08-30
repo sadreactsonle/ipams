@@ -14,6 +14,7 @@ all_models = [
     models.Budget,
     models.CollaborationType,
     models.Record,
+    models.CheckedRecord,
     models.PublicationLevel,
 ]
 admin.site.register(all_models)

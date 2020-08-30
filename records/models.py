@@ -71,6 +71,14 @@ class Record(models.Model):
         return self.title
 
 
+class CheckedRecord(models.Model):
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
+    checked_by = models.ForeignKey('accounts.User', on_delete=models.DO_NOTHING)
+    status = models.CharField(max_length=100)
+    comment = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+
+
 class Publication(models.Model):
     name = models.CharField(max_length=200, null=True)
     isbn = models.CharField(max_length=50, null=True, blank=True)
