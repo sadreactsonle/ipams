@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ipams.iml" filepath="$PROJECT_DIR$/.idea/ipams.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wilsite/.idea/wilsite.iml" filepath="$PROJECT_DIR$/../wilsite/.idea/wilsite.iml" />
     </modules>
   </component>
 </project>

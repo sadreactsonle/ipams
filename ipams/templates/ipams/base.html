@@ -208,12 +208,12 @@
     <div class="container-fluid" style="margin-bottom:50px">
 
         <div class="row">
-            <div class="d-flex align-items-center fixed-top" style="background-color:#89343b">
+            <div class="d-flex align-items-center fixed-top" style="background-color:#89343b; border-bottom:2px solid black;">
                 <div class="col-8">
                     <h4><b><a href="{% url 'records-index' %}" style="text-decoration:none; color:white">IPAMS</a></b></h4>
                 </div>
                 {% if not hide_profile %}
-                <div class="col-4 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
+                <div class="col-lg-4 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
                     <div class="dropdown">
                         <button data-backdrop="false" type="button" style="background-color:#febf0f" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user fa-md"></i>

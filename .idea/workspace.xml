@@ -20,25 +20,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9113322-820c-471e-9518-9aaf101f9d70" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/ipams.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ipams.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ipams/templates/ipams/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipams/templates/ipams/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/authors_and_categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/authors_and_categories.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/budget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/collaboration.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/collaboration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/conference.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/publication.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/publication.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/title_and_abstract.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/title_and_abstract.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/home_navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/home_navbar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/records/templates/records/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/approved_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/approved_records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/my_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/my_records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/pending_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/pending_records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view_record/title_and_abstract.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view_record/title_and_abstract.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/.idea/wilsite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/.idea/wilsite.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/migrations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/templates/payment/accounting.html" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/templates/payment/accounting.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/templates/payment/online_payment.html" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/templates/payment/online_payment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/payment/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wilsite/wilsite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/wilsite/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +54,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../wilsite" />
   </component>
   <component name="ProjectId" id="1gc5vnzsQcCH64M14K71Uz8ugfi" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -65,7 +66,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../wilsite" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -100,10 +101,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup" timestamp="1598751948933">
+    <state x="466" y="155" width="424" height="491" key="FileChooserDialogImpl" timestamp="1598885242753">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="466" y="155" width="424" height="491" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1598885242753" />
+    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup" timestamp="1598859205459">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1598487972644" />
-    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup/0.27.1366.741@0.27.1366.741" timestamp="1598751948933" />
+    <state x="346" y="77" width="672" height="691" key="search.everywhere.popup/0.27.1366.741@0.27.1366.741" timestamp="1598859205459" />
   </component>
 </project>
