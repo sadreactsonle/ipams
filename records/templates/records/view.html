@@ -74,7 +74,8 @@
     </div>
     <div class="row">
         <div class="col-12 d-flex justify-content-end">
-            <a href="{% url 'records-update' record_id=record.pk %}" class="btn btn-warning">Update</a>
+            <a href="#" class="btn btn-warning">Decline</a>
+            <a href="#" class="btn btn-warning">Approve</a>
         </div>
     </div>
     <form method="post" action="{% url 'records-add' %}" id="form-record">

@@ -141,7 +141,7 @@
 				    		  'Deleted!',
 				    		  'The selected items have been deleted',
 				    		  'success'
-				    		)
+				    		);
 						},
 						error: function(data){
 							alert("error");
@@ -301,22 +301,6 @@
 			initGraphs();
 		});
 
-//-------------------------------error messages---------------------------------------
-		{% if import_message == 'success' %}
-			Swal.fire({
-			  type: 'success',
-			  title: 'Import Success!',
-			  showConfirmButton: true,
-			})
-			{% elif import_message == 'failed' %}
-			Swal.fire({
-			  type: 'warning',
-			  title: 'Import Failed!',
-			  html: 'Some rows have unexpected values or you might have imported the wrong format',
-			  showConfirmButton: true,
-			})
-		{% endif %}
-
 //--------------------------adjust datatables header--------------------------------
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
 	   $($.fn.dataTable.tables(true)).DataTable()
@@ -392,11 +376,20 @@
 						data: { "accounts": accounts, "remove-accounts": true },
 						success: function(data){
 							accountsTbl.ajax.reload();
-							Swal.fire(
-				    		  'Deleted!',
-				    		  'The selected accounts have been deleted',
-				    		  'success'
-				    		)
+							if(data['success']){
+								Swal.fire(
+				    			  'Deleted!',
+				    			  'The selected accounts have been deleted',
+				    			  'success'
+				    			)
+				    		}
+				    		else{
+				    			Swal.fire(
+				    			  'Error!',
+				    			  'You are trying to delete a superuser account, This cannot be done...',
+				    			  'error'
+				    			)
+				    		}
 						},
 						error: function(data){
 							alert("error");

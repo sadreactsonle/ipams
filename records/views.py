@@ -1,11 +1,10 @@
 import json
 import mimetypes
 
+from django.contrib import messages
 from django.core.exceptions import ValidationError
-from django.core.files.storage import FileSystemStorage
 from django.db import DataError, connection
 from django.db.models import Count
-from django.forms import modelformset_factory
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
@@ -28,17 +27,9 @@ class Home(View):
     name = 'records/index.html'
 
     def get(self, request):
-        import_message = request.session.get('import_message', False)
-        error_message = request.session.get('error_message', False)
         login_required = request.GET.get('next', False)
-        if import_message:
-            del request.session['import_message']
-        if error_message:
-            del request.session['error_message']
         context = {
             'records': Record.objects.all(),
-            'import_message': import_message,
-            'error_message': error_message,
             'login_required': login_required,
             'record_form': forms.RecordForm(),
             'login_form': LoginForm(),
@@ -82,10 +73,13 @@ class Home(View):
             # removing accounts
             elif request.POST.get('remove-accounts'):
                 accounts = request.POST.getlist('accounts[]')
+                success = False
                 for account_id in accounts:
                     del_account = User.objects.get(pk=int(account_id))
-                    del_account.delete()
-                return JsonResponse({'success': True})
+                    if not del_account.is_superuser:
+                        del_account.delete()
+                        success = True
+                return JsonResponse({'success': success})
             # filtering records from an ajax request
             elif request.POST.get('is_filtered') == 'True':
                 year_from_filter = request.POST.get('year_from', '0')
@@ -267,32 +261,6 @@ class Add(View):
         return render(request, self.name, context)
 
 
-class Update(View):
-    name = 'records/update.html'
-
-    @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
-    @method_decorator(login_required(login_url='/'))
-    def get(self, request, record_id):
-        author_roles = AuthorRole.objects.all()
-        classifications = Classification.objects.all()
-        psced_classifications = PSCEDClassification.objects.all().order_by('name')
-        conference_levels = ConferenceLevel.objects.all()
-        budget_types = BudgetType.objects.all()
-        collaboration_types = CollaborationType.objects.all()
-        publication_levels = PublicationLevel.objects.all()
-        context = {
-            'record': Record.objects.get(pk=record_id),
-            'author_roles': author_roles,
-            'classifications': classifications,
-            'psced_classifications': psced_classifications,
-            'conference_levels': conference_levels,
-            'budget_types': budget_types,
-            'collaboration_types': collaboration_types,
-            'publication_levels': publication_levels,
-        }
-        return render(request, self.name, context)
-
-
 class ParseExcel(View):
     def post(self, request):
         try:
@@ -383,14 +351,14 @@ class ParseExcel(View):
                                 collaboration_type = 3
                         Collaboration(collaboration_type=CollaborationType.objects.get(pk=collaboration_type),
                                       industry=industry, institution=institution, record=record).save()
-                        request.session['import_message'] = 'success'
                 else:
                     break
+            messages.success(request, 'Import Success!')
         except (MultiValueDictKeyError, KeyError, ValueError, OSError):
-            request.session['import_message'] = 'failed'
+            messages.error(request, "Some rows have invalid values")
             print('Multivaluedictkeyerror/KeyError/ValueError/OSError')
         except (DataError, ValidationError):
-            request.session['import_message'] = 'failed'
+            messages.error(request, "The form is invalid")
             print('DataError/ValidationError')
         return redirect('records-index')
 

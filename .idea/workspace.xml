@@ -20,13 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9113322-820c-471e-9518-9aaf101f9d70" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ipams.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ipams.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ipams/templates/ipams/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipams/templates/ipams/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/records/templates/records/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/templates/records/view.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../wilsite/.idea/wilsite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/.idea/wilsite.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../wilsite/payment/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../wilsite/payment/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../wilsite/payment/admin.py" afterDir="false" />
@@ -54,7 +58,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../wilsite" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1gc5vnzsQcCH64M14K71Uz8ugfi" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
