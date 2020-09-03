@@ -26,6 +26,15 @@
                 margin: 0;
             }
 
+            .base-bg-primary{
+                background-color:#febf0f !important;
+		    	color:black;
+            }
+
+            .color-secondary{
+
+            }
+
             .modal-ku{
                 width:500px;
             }
@@ -78,19 +87,17 @@
 
         </style>
         <style>
-		    .btn-yellow-solid{
-		    	background-color:#febf0f;
+		    .base-btn{
 		    	color:black;
 		    	border: 1px solid #febf0f;
 		    }
-		    .btn-yellow-solid:hover{
+		    .base-btn:hover{
 		        background-color:#fff342;
 		    }
 		    .main-container{
 		        box-shadow: 4px -4px 5px 0 rgba(0, 0, 0, 0.2), 8px -8px 8px 0 rgba(0, 0, 0, 0.19);
 		    }
 		    .main-header{
-		         background-color:#febf0f;
 		         padding:20px 0px 20px 0px;
 		    }
 		    .main-header.title-and-abstract{
@@ -215,7 +222,7 @@
                 {% if not hide_profile %}
                 <div class="col-lg-4 d-flex justify-content-end" style="margin-bottom:10px; margin-top:10px">
                     <div class="dropdown">
-                        <button data-backdrop="false" type="button" style="background-color:#febf0f" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button data-backdrop="false" type="button" class="btn dropdown-toggle base-bg-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user fa-md"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" style="position:absolute">
@@ -262,7 +269,7 @@
                 <div class="modal-content">
                     <form method="post" id="profile-form">
                         {% csrf_token %}
-                        <div class="modal-header" style="background-color:#febf0f">
+                        <div class="modal-header base-bg-primary">
                             <h5 class="modal-title">Profile Settings</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
