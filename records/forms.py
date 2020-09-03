@@ -75,4 +75,3 @@ class CollaborationForm(forms.ModelForm):
     class Meta:
         model = Collaboration
         fields = ('industry', 'institution', 'collaboration_type')
-

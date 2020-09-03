@@ -21,20 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c9113322-820c-471e-9518-9aaf101f9d70" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ipams/templates/ipams/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/ipams/templates/ipams/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/authors_and_categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/authors_and_categories.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/budget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/collaboration.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/collaboration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/conference.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/publication.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/publication.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/add_record/title_and_abstract.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/add_record/title_and_abstract.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/approved_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/approved_records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/my_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/my_records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/profile/pending_records.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/profile/pending_records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/records/templates/records/view.html" beforeDir="false" afterPath="$PROJECT_DIR$/records/templates/records/view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/records/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/records/forms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +49,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -100,6 +88,10 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="466" y="155" width="424" height="491" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1598885242753" />
+    <state x="174" y="18" key="SettingsEditor" timestamp="1599143053179">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="174" y="18" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1599143053179" />
     <state x="346" y="77" width="672" height="691" key="search.everywhere.popup" timestamp="1598859205459">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
