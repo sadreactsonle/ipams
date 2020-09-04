@@ -11,8 +11,9 @@ from django.http import HttpResponse, JsonResponse
 
 from accounts.decorators import authorized_roles
 from accounts.models import User, UserRole, UserRecord
+from .forms import AssessmentForm, CheckedRecordForm
 from .models import Record, AuthorRole, Classification, PSCEDClassification, ConferenceLevel, BudgetType, \
-    CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration
+    CollaborationType, Author, Conference, PublicationLevel, Publication, Budget, Collaboration, CheckedRecord
 from django.shortcuts import redirect
 from pyexcel_xls import get_data as xls_get
 from pyexcel_xlsx import get_data as xlsx_get
@@ -148,27 +149,43 @@ class Home(View):
 
 class ViewRecord(View):
     name = 'records/view.html'
+    author_roles = AuthorRole.objects.all()
+    classifications = Classification.objects.all()
+    psced_classifications = PSCEDClassification.objects.all().order_by('name')
+    conference_levels = ConferenceLevel.objects.all()
+    budget_types = BudgetType.objects.all()
+    collaboration_types = CollaborationType.objects.all()
+    publication_levels = PublicationLevel.objects.all()
+    checked_record_form = CheckedRecordForm()
+    context = {
+        'author_roles': author_roles,
+        'classifications': classifications,
+        'psced_classifications': psced_classifications,
+        'conference_levels': conference_levels,
+        'budget_types': budget_types,
+        'collaboration_types': collaboration_types,
+        'publication_levels': publication_levels,
+        'checked_record_form': checked_record_form,
+    }
 
     @method_decorator(login_required(login_url='/'))
     def get(self, request, record_id):
-        author_roles = AuthorRole.objects.all()
-        classifications = Classification.objects.all()
-        psced_classifications = PSCEDClassification.objects.all().order_by('name')
-        conference_levels = ConferenceLevel.objects.all()
-        budget_types = BudgetType.objects.all()
-        collaboration_types = CollaborationType.objects.all()
-        publication_levels = PublicationLevel.objects.all()
-        context = {
-            'record': Record.objects.get(pk=record_id),
-            'author_roles': author_roles,
-            'classifications': classifications,
-            'psced_classifications': psced_classifications,
-            'conference_levels': conference_levels,
-            'budget_types': budget_types,
-            'collaboration_types': collaboration_types,
-            'publication_levels': publication_levels,
-        }
-        return render(request, self.name, context)
+        self.context['record'] = Record.objects.get(pk=record_id)
+        return render(request, self.name, self.context)
+
+    def post(self, request, record_id):
+        if request.user.role.id > 2:
+            checked_record_form = CheckedRecordForm(request.POST)
+            if checked_record_form.is_valid():
+                checked_record = checked_record_form.save(commit=False)
+                checked_record.checked_by = request.user
+                checked_record.record = Record.objects.get(pk=record_id)
+                checked_record.status = request.POST.get('status')
+                checked_record.save()
+            else:
+                print('invalid form')
+            self.context['record'] = Record.objects.get(pk=record_id)
+            return render(request, self.name, self.context)
 
 
 class Add(View):

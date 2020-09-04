@@ -1,9 +1,9 @@
 from django import forms
 
 from records.models import Record, Publication, Conference, Author, Collaboration, Budget, AuthorRole, PublicationLevel, \
-    Classification, PSCEDClassification
+    Classification, PSCEDClassification, CheckedRecord
 
-from crispy_forms.helper import FormHelper
+ASSESSMENT_CHOICES = (('pending', 'pending'), ('approved', 'approved'), ('declined', 'declined'))
 
 
 class RecordForm(forms.ModelForm):
@@ -75,3 +75,15 @@ class CollaborationForm(forms.ModelForm):
     class Meta:
         model = Collaboration
         fields = ('industry', 'institution', 'collaboration_type')
+
+
+class CheckedRecordForm(forms.ModelForm):
+    use_required_attribute = False
+
+    class Meta:
+        model = CheckedRecord
+        fields = ('comment',)
+
+
+class AssessmentForm(forms.Form):
+    comment = forms.CharField(required=False, label='COMMENTS / RECOMMENDATIONS', widget=forms.Textarea)
