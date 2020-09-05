@@ -30,7 +30,6 @@ class Home(View):
     def get(self, request):
         login_required = request.GET.get('next', False)
         context = {
-            'records': Record.objects.all(),
             'login_required': login_required,
             'record_form': forms.RecordForm(),
             'login_form': LoginForm(),
@@ -40,7 +39,8 @@ class Home(View):
     def post(self, request):
         if request.is_ajax():
             data = []
-            records = Record.objects.all()
+            checked_records = CheckedRecord.objects.filter(checked_by__in=Subquery(User.objects.filter(role=5).values('pk')))
+            records = Record.objects.filter(pk__in=Subquery(checked_records.values('record_id')))
             # graphs
             if request.POST.get('graphs'):
                 basic_count = Record.objects.filter(classification=1).count()
