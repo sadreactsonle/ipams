@@ -20,17 +20,6 @@
         		],
             });
         });
-
-        function onCommentModalShow(action,id,title){
-            $("#modal-record-id").val(id);
-            $("#modal-record-title").val(title);
-            if(action == 'approved'){
-                $("#modal-tags").show();
-            }
-            else{
-                $("#modal-tags").hide();
-            }
-        }
     </script>
 {% endblock %}
 
@@ -56,63 +45,12 @@
                         <tr>
                             <th></th>
                             <th>RESEARCH TITLE</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- --------------------------------Modal--------------------------------------------- -->
-<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form method="post">
-                {% csrf_token %}
-                <div class="modal-header base-bg-primary">
-                    <h5 class="modal-title" id="modal-title">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="modal-record-title">Title:</label>
-                                <input name="modal-record-title" id="modal-record-title" type="text" class="form-control" value="" readonly>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="modal-record-comment">Comment:</label>
-                                <textarea name="modal-record-comment" id="modal-record-comment" class="form-control" rows="6"></textarea>
-                            </div>
-                        </div>
-                        <div id="modal-tags" style="margin-top:10px;">
-                            Tags:
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="tag-ip">
-                                <label class="form-check-label" for="tag-ip">IP</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="tag-commercialization">
-                                <label class="form-check-label" for="tag-commercialization">Commercialization</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="modal-record-id" id="modal-record-id">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" id="btn-action-save" class="btn btn-primary">Confirm</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

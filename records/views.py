@@ -4,7 +4,7 @@ import mimetypes
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import DataError, connection
-from django.db.models import Count
+from django.db.models import Count, Subquery
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
@@ -26,7 +26,7 @@ from accounts.forms import LoginForm
 
 class Home(View):
     name = 'records/index.html'
-
+    
     def get(self, request):
         login_required = request.GET.get('next', False)
         context = {
@@ -444,33 +444,27 @@ class PendingRecordsView(View):
                 data.append([
                     row[0],
                     '<a href="/record/' + str(row[0]) + '">' + row[1] + '</a>',
-                    '',
                 ])
         elif request.user.role.id == 4:
             with connection.cursor() as cursor:
-                cursor.execute("select records_record.id, records_record.title, records_checkedrecord.checked_by_id from records_record left join records_checkedrecord on records_record.id = records_checkedrecord.record_id where checked_by_id is NULL;")
+                cursor.execute("SELECT records_record.id, records_record.title FROM records_record INNER JOIN records_checkedrecord ON records_record.id = records_checkedrecord.record_id INNER JOIN accounts_user ON records_checkedrecord.checked_by_id = accounts_user.id WHERE accounts_user.role_id = 3 AND records_checkedrecord.status = 'approved' AND records_record.id NOT IN (SELECT records_checkedrecord.record_id FROM records_checkedrecord INNER JOIN accounts_user ON records_checkedrecord.checked_by_id = accounts_user.id WHERE accounts_user.role_id = 4)")
                 rows = cursor.fetchall()
-
             data = []
             for row in rows:
                 data.append([
                     row[0],
-                    '<a href="/record/' + str(row[0]) + '">' + row[1] + '</a>',
-                    '<a href="#" onclick="onCommentModalShow()">Approve</a> | '
-                    '<a href="#">Decline</a>',
+                    f'<a href="/record/{row[0]}">{row[1]}</a>'
                 ])
+
         elif request.user.role.id == 5:
             with connection.cursor() as cursor:
-                cursor.execute("select records_record.id, records_record.title, records_checkedrecord.checked_by_id from records_record left join records_checkedrecord on records_record.id = records_checkedrecord.record_id where checked_by_id is NULL;")
+                cursor.execute("SELECT records_record.id, records_record.title FROM records_record INNER JOIN records_checkedrecord ON records_record.id = records_checkedrecord.record_id INNER JOIN accounts_user ON records_checkedrecord.checked_by_id = accounts_user.id WHERE accounts_user.role_id = 4 AND records_checkedrecord.status = 'approved' AND records_record.id NOT IN (SELECT records_checkedrecord.record_id FROM records_checkedrecord INNER JOIN accounts_user ON records_checkedrecord.checked_by_id = accounts_user.id WHERE accounts_user.role_id = 5)")
                 rows = cursor.fetchall()
-
             data = []
             for row in rows:
                 data.append([
                     row[0],
-                    '<a href="/record/' + str(row[0]) + '">' + row[1] + '</a>',
-                    '<a href="#" onclick="onCommentModalShow(\'approved\',' + str(row[0]) + ', \'' + row[1] + '\')" data-toggle="modal" data-target="#action-modal">Approve</a> | '
-                                                                                                              '<a href="#" data-toggle="modal" onclick="onCommentModalShow(\'declined\',' + str(row[0]) + ', \'' + row[1] + '\')" data-target="#action-modal">Decline</a>',
+                    f'<a href="/record/{row[0]}">{row[1]}</a>'
                 ])
         return JsonResponse({"data": data})
 
@@ -483,6 +477,16 @@ class ApprovedRecordsView(View):
     def get(self, request):
         return render(request, self.template_name)
 
+    def post(self, request):
+        checked_records = CheckedRecord.objects.filter(checked_by=request.user, status='approved')
+        data = []
+        for checked_record in checked_records:
+            data.append([
+                checked_record.record.pk,
+                f'<a href="/record/{checked_record.record.pk}">{checked_record.record.title}</a>'
+            ])
+        return JsonResponse({'data':data})
+
 
 class DeclinedRecordsView(View):
     template_name = 'records/profile/declined_records.html'
@@ -491,3 +495,13 @@ class DeclinedRecordsView(View):
     @method_decorator(authorized_roles(roles=['student', 'adviser', 'ktto', 'rdco']))
     def get(self, request):
         return render(request, self.template_name)
+
+    def post(self, request):
+        checked_records = CheckedRecord.objects.filter(checked_by=request.user, status='declined')
+        data = []
+        for checked_record in checked_records:
+            data.append([
+                checked_record.record.pk,
+                f'<a href="/record/{checked_record.record.pk}">{checked_record.record.title}</a>'
+            ])
+        return JsonResponse({'data':data})
