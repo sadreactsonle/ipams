@@ -74,7 +74,29 @@
                 $("#status").val("declined");
                 $("#assessment-modal").modal("show");
             });
+
+            
         });
+
+        function checkStatusClick(role){
+            if(role == 'adviser'){
+                $("#checked-status-title").html("{{ adviser_checked.status }}");
+                $("#checked-status-date").val("{{ adviser_checked.date_created }}");
+                $("#checked-status-comment").html("{{ adviser_checked.comment }}");
+            }
+            else if(role == 'ktto'){
+                $("#checked-status-title").html("{{ ktto_checked.status }}");
+                $("#checked-status-date").val("{{ ktto_checked.date_created }}");
+                $("#checked-status-comment").html("{{ ktto_checked.comment }}");
+            }
+            else if(role == 'rdco'){
+                $("#checked-status-title").html("{{ rdco_checked.status }}");
+                $("#checked-status-date").val("{{ rdco_checked.date_created }}");
+                $("#checked-status-comment").html("{{ rdco_checked.comment }}");
+            }
+            
+            $("#checked-status-modal").modal("show");
+        }
 	</script>
 {% endblock %}
 
@@ -86,10 +108,32 @@
         </div>
     </div>
     <div class="row" style="margin-bottom:10px;">
-        <div class="col-12 d-flex justify-content-end">
+        <div class="col-6">
+            <table class="table table-striped">
+                <tr>
+                    <th>Checked By</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Adviser</td>
+                    <td><a href="#" onclick="checkStatusClick('adviser');">{{ adviser_checked.status }}</a></td>
+                </tr>
+                <tr>
+                    <td>KTTO</td>
+                    <td><a href="#" onclick="checkStatusClick('ktto');">{{ ktto_checked.status }}</a></td>
+                </tr>
+                <tr>
+                    <td>RDCO</td>
+                    <td><a href="#" onclick="checkStatusClick('rdco');">{{ rdco_checked.status }}</a></td>
+                </tr>
+            </table>
+        </div>
+        {% if not role_checked %}
+        <div class="col-6 d-flex justify-content-end">
             <a type="button" href="#" id="btn-approve">Approve</a> |
             <a type="button" href="#" id="btn-decline">Decline</a>
         </div>
+        {% endif %}
     </div>
     <form method="post" action="{% url 'records-add' %}" id="form-record">
         {% csrf_token %}
@@ -189,6 +233,42 @@
                     <button type="submit" id="btn-assessment-save" class="btn btn-primary">Confirm</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="checked-status-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header base-bg-primary">
+                <h5 class="modal-title" id="checked-status-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="checked-status-date">Date Checked: </label><input id="checked-status-date" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="checked-status-comment">Comment:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <textarea id="checked-status-comment" class="form-control" rows="6" readonly>
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

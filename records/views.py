@@ -39,7 +39,7 @@ class Home(View):
     def post(self, request):
         if request.is_ajax():
             data = []
-            checked_records = CheckedRecord.objects.filter(checked_by__in=Subquery(User.objects.filter(role=5).values('pk')))
+            checked_records = CheckedRecord.objects.filter(status='approved', checked_by__in=Subquery(User.objects.filter(role=5).values('pk')))
             records = Record.objects.filter(pk__in=Subquery(checked_records.values('record_id')))
             # graphs
             if request.POST.get('graphs'):
@@ -170,6 +170,24 @@ class ViewRecord(View):
 
     @method_decorator(login_required(login_url='/'))
     def get(self, request, record_id):
+        checked_records = CheckedRecord.objects.filter(record=Record.objects.get(pk=record_id))
+        adviser_checked = {'status':'pending'}
+        ktto_checked = {'status':'pending'}
+        rdco_checked = {'status':'pending'}
+        role_checked = False
+        for checked_record in checked_records:
+            if checked_record.checked_by.role.id == 3:
+                adviser_checked = checked_record
+            if checked_record.checked_by.role.id == 4:
+                ktto_checked = checked_record
+            if checked_record.checked_by.role.id == 5:
+                rdco_checked = checked_record
+            if checked_record.checked_by.role.id == request.user.role.pk:
+                role_checked=True
+        self.context['adviser_checked'] = adviser_checked
+        self.context['ktto_checked'] = ktto_checked
+        self.context['rdco_checked'] = rdco_checked
+        self.context['role_checked'] = role_checked
         self.context['record'] = Record.objects.get(pk=record_id)
         return render(request, self.name, self.context)
 
