@@ -192,18 +192,25 @@ class ViewRecord(View):
         return render(request, self.name, self.context)
 
     def post(self, request, record_id):
-        if request.user.role.id > 2:
-            checked_record_form = CheckedRecordForm(request.POST)
-            if checked_record_form.is_valid():
-                checked_record = checked_record_form.save(commit=False)
-                checked_record.checked_by = request.user
-                checked_record.record = Record.objects.get(pk=record_id)
-                checked_record.status = request.POST.get('status')
-                checked_record.save()
-            else:
-                print('invalid form')
-            self.context['record'] = Record.objects.get(pk=record_id)
-            return render(request, self.name, self.context)
+        if request.is_ajax():
+            # removing record
+            del_record = Record.objects.get(pk=record_id)
+            del_record.abstract_file.delete()
+            del_record.delete()
+            return JsonResponse({'success': True})
+        else:
+            if request.user.role.id > 2:
+                checked_record_form = CheckedRecordForm(request.POST)
+                if checked_record_form.is_valid():
+                    checked_record = checked_record_form.save(commit=False)
+                    checked_record.checked_by = request.user
+                    checked_record.record = Record.objects.get(pk=record_id)
+                    checked_record.status = request.POST.get('status')
+                    checked_record.save()
+                else:
+                    print('invalid form')
+                self.context['record'] = Record.objects.get(pk=record_id)
+                return render(request, self.name, self.context)
 
 
 class Add(View):
@@ -333,6 +340,7 @@ class ParseExcel(View):
                                         classification=Classification.objects.get(pk=classification),
                                         psced_classification=PSCEDClassification.objects.get(pk=psced_classification))
                         record.save()
+                        UserRecord(record=record, user=request.user).save()
                     else:
                         continue
                     Conference(title=conference_title,
@@ -431,13 +439,23 @@ class MyRecordsView(View):
         user_records = UserRecord.objects.filter(user=request.user)
         data = []
         for user_record in user_records:
+            adviser_checked = 'pending'
+            ktto_checked = 'pending'
+            rdco_checked = 'pending'
+            for checked_record in CheckedRecord.objects.filter(record=user_record.record):
+                if checked_record.checked_by.role.pk == 3:
+                    adviser_checked = checked_record.status
+                elif checked_record.checked_by.role.pk == 4:
+                    ktto_checked = checked_record.status
+                elif checked_record.checked_by.role.pk == 5:
+                    rdco_checked = checked_record.status
             data.append([
                 user_record.record.pk,
                 '<a href="/record/' + str(
                     user_record.record.pk) + '">' + user_record.record.title + '</a>',
-                '',
-                '',
-                'pending',
+                adviser_checked,
+                ktto_checked,
+                rdco_checked,
                 '<a href="#">resubmit</a> | <a href="#">remove</a>',
             ])
         return JsonResponse({"data": data})

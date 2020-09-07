@@ -74,7 +74,35 @@
                 $("#status").val("declined");
                 $("#assessment-modal").modal("show");
             });
-
+            $("#btn-remove").on("click", function(){
+                Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                  if (result.value) {
+                     $.ajax({
+		    	    	"headers": { "X-CSRFToken": '{{ csrf_token }}' },
+		    	    	"type": "post",
+                        "success": function(data){
+                            alert("success");
+                        },
+                        "error": function(data){
+                            alert("error");
+                        }
+		    	    });
+                    Swal.fire(
+                      'Deleted!',
+                      'Your record has been deleted.',
+                      'success'
+                    )
+                  }
+                })
+            });
             
         });
 
@@ -131,7 +159,8 @@
         {% if not role_checked %}
         <div class="col-6 d-flex justify-content-end">
             <a type="button" href="#" id="btn-approve">Approve</a> |
-            <a type="button" href="#" id="btn-decline">Decline</a>
+            <a type="button" href="#" id="btn-decline">Decline</a> 
+            <button type="button" id="btn-remove">remove</button>
         </div>
         {% endif %}
     </div>
